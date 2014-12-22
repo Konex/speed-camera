@@ -1,0 +1,13 @@
+@import "maps/structure-maps";
+
+.ionic-logo {
+  	display: block;
+  	margin: 15px auto;
+  	width: 96px;
+  	height: 96px;
+}
+
+.scroll-content {
+	padding-left:  $form-padding;
+	padding-right: $form-padding; 
+}
