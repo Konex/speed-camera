@@ -1,30 +1,71 @@
 <ion-view title="Settings">
-  <ion-content padding="true">
-    <img src="images/ionic.png" class="ionic-logo">
-    <p>
-      This is a sample seed project for the Ionic Framework. Please cut it up and make it your own.
-      Check out the <a href="http://ionicframework.com/docs/" target="_blank">docs</a>
-      for more info.
-    </p>
-    <p>
-      Questions? Hit up the 
-      <a href="http://forum.ionicframework.com/" target="_blank">forum</a>.
-    </p>
-    <p>
-      Find a bug? Create an 
-      <a href="https://github.com/driftyco/ionic/issues?state=open" target="_blank">issue</a>.
-    </p>
-    <p>
-      What to help improve Ionic?
-      <a href="http://ionicframework.com/contribute/" target="_blank">Contribute</a>.
-    </p>
-    <p>
-      Stay up-to-date with the Ionic 
-      <a href="http://ionicframework.com/subscribe/" target="_blank">newsletter</a> and 
-      <a href="https://twitter.com/Ionicframework" target="_blank">twitter</a> account.
-    </p>
-    <p>
-      MIT Licensed. Happy coding.
-    </p>
-  </ion-content>
+    <ion-content padding="true">
+
+        <div class="item item-divider">Maps</div>
+        <div class="list">    
+            <ion-toggle ng-model="trafficMode" toggle-class="toggle-energized">Traffic</ion-toggle>
+            <ion-toggle ng-model="mobileCameraMode" toggle-class="toggle-energized">Mobile Camera</ion-toggle>
+
+        </div>
+
+        <div class="item item-divider">Phone</div>
+            <div class="list">
+            <ion-toggle ng-model="soundOnOff" toggle-class="toggle-energized">Sound</ion-toggle>     
+            <ion-toggle ng-model="vibrationOnOff" toggle-class="toggle-energized">Vibration</ion-toggle> 
+
+            <div class="item range range-energized">
+                Warning Distance
+                <i class="icon ion-ios-speedometer-outline warning-distance"></i>
+                <input type="range" name="volume" min="0" max="100" value="33">
+                <i class="icon ion-ios-speedometer"></i>
+            </div>
+
+            <div class="item range range-energized">
+                GPS in Second 
+                <i class="icon ion-ios-pulse gps-in-second"></i>
+                <input type="range" name="gpsInSecond" min="0" max="100" value="33">
+                <i class="icon ion-ios-pulse-strong"></i>
+            </div>
+
+            <div class="item range range-energized">
+                GPS in Meter
+                <i class="icon ion-ios-pulse gps-in-meter"></i>
+                <input type="range" name="gpsInMeter" min="0" max="100" value="33">
+                <i class="icon ion-ios-pulse-strong"></i>
+            </div>
+        </div>
+
+        <div class="list">
+            <div class="item item-divider">Me</div>
+            <ion-toggle ng-model="myLocationOnOff" toggle-class="toggle-energized">Pin My Location</ion-toggle>
+            <ion-toggle ng-model="needForSpeedMode" toggle-class="toggle-assertive"><i class="icon ion-jet assertive"></i> Need 4 Speed</ion-toggle>
+        
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Country
+                </div>
+                <select>
+                    <option>Australia</option>
+                    <option selected>New Zealand</option>
+                    <option>France</option>
+                    <option>Hong Kong (China)</option>
+                </select>
+            </label>
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    State
+                </div>
+                <select>
+                    <option>Australian Capital Territory</option>
+                    <option selected>New South Wales</option>
+                    <option>Northern Territory</option>
+                    <option>Queensland</option>
+                    <option>Western Australia</option>
+                    <option>Tasmania</option>
+                    <option>Victoria</option>
+                </select>
+            </label>
+        </div>
+        
+    </ion-content>
 </ion-view>
