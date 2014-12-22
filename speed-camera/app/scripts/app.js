@@ -9,7 +9,7 @@ var mars = angular.module('Mars', [
     'signin', 
     'maps',
     'pulse',
-    'browse'
+    'setting'
 ]);
 
 
