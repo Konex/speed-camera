@@ -1,5 +1,9 @@
 ion-nav-view[name="maps-tab"] {
-	margin-top: 2.9rem;	
+	margin-top: 2.9rem;
+
+	.checkbox {
+		float: right;
+	}	
 }
 
 .angular-google-map-container { 

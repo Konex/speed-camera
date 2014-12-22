@@ -21,13 +21,28 @@
 			</header>
 			
 			<ion-content has-header="true">
+				
+				<div class="item item-divider">Maps</div>
 				<ion-toggle ng-model="trafficMode" toggle-class="toggle-calm">Traffic</ion-toggle>
 
 				<ion-toggle ng-model="needForSpeedMode" toggle-class="toggle-assertive">Need 4 Speed</ion-toggle>
 
 				<ion-toggle ng-model="mobileCameraMode" toggle-class="toggle-calm">Mobile Camera</ion-toggle>
 
-				<ion-toggle ng-model="soundOnOff" toggle-class="toggle-calm">Sound</ion-toggle>
+
+				<div class="item item-divider">Me</div>
+		  		<ion-toggle ng-model="myLocationOnOff" toggle-class="toggle-calm">My Location</ion-toggle>
+		  
+				<ion-toggle ng-model="soundOnOff" toggle-class="toggle-calm">Sound</ion-toggle>	  	
+		  	
+				<ion-toggle ng-model="vibrationOnOff" toggle-class="toggle-calm">Vibration</ion-toggle>  	
+				  	
+
+				
+
+				
+     				
+
 			</ion-content>
 		</ion-side-menu>
     </ion-side-menus>
