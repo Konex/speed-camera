@@ -2,6 +2,7 @@
 
 var maps = angular.module('maps', [
 	'uiGmapgoogle-maps',
+	'maps.directives',
 	'maps.controller'
 ]);
 
@@ -9,10 +10,11 @@ maps.config([
 	'$stateProvider',
     '$urlRouterProvider',
     'uiGmapGoogleMapApiProvider',
+    
     function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
 
     	uiGmapGoogleMapApiProvider.configure({
-	        key: '',
+	        key: 'AIzaSyAFLT6fiDjkQF76NzouGhSDh2365lql8L0',
 	        v: '3.17',
 	        libraries: 'weather,geometry,visualization'
     	});
