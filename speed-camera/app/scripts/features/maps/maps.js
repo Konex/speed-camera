@@ -12,7 +12,7 @@ maps.config([
     function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
 
     	uiGmapGoogleMapApiProvider.configure({
-	        key: 'AIzaSyAFLT6fiDjkQF76NzouGhSDh2365lql8L0',
+	        key: '',
 	        v: '3.17',
 	        libraries: 'weather,geometry,visualization'
     	});

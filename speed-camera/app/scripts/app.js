@@ -1,7 +1,8 @@
 'use strict';
 
 var mars = angular.module('Mars', [
-    'ionic', 
+    'ionic',
+    'ngAnimate', 
     'config',
     'applicationController',
     'common.security',
