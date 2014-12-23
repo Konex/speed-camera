@@ -1,10 +1,12 @@
 'use strict';
 
 var mars = angular.module('Mars', [
+    'ngCordova',
     'ionic',
     'ngAnimate', 
     'config',
     'applicationController',
+    'dataAccess',
     'common.security',
     'signin', 
     'maps',
@@ -13,8 +15,8 @@ var mars = angular.module('Mars', [
 ]);
 
 
-
-mars.run(['$ionicPlatform',
+mars.run([
+    '$ionicPlatform',
 
     function($ionicPlatform) {
     $ionicPlatform.ready(function() {
