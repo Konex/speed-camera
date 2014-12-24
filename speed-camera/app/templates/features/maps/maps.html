@@ -12,11 +12,7 @@
 		  		
 		  		<ui-gmap-google-map center='map.center' zoom='map.zoom'>
 
-		  			<div ng-repeat="marker in markers">
-		  				<ui-gmap-marker coords="marker.coords" options="marker.options" idkey="marker.id">
-
-		  				</ui-gmap-marker>
-		  			</div>
+		  			<ui-gmap-markers models="cameraMarkers" coords="'self'"></ui-gmap-markers>
 
 		  		</ui-gmap-google-map>
 			

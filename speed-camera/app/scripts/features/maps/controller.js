@@ -6,37 +6,33 @@ var mapsController = angular.module('maps.controller', [
 
 var cameraMarkers = {};
 (function () {
-	var dataAccessService;
+	var $scope, dataAccessService;
 
-	function init(_dataAccessService) {
+	function init(_$scope, _dataAccessService) {
+		$scope = _$scope;
 		dataAccessService = _dataAccessService;
+		$scope.cameraMarkers = [];
 	}
 
-	function getAllCameraMarkers() {
-		var markers = [];
-		
-		dataAccessService.getCameras('test.json').then(
-			function(data) {
-				for(var i=0, len=data.value.length; i<len; i++) {
-					var marker = {};
-					marker.id = data.value[i].id;
-					marker.coords = {latitude: data.value[i].latitude, longitude: data.value[i].longitude};
-					marker.options = {labelContent: data.value[i].description + ' Speed Limit:' + data.value[i].speed_limit + ' Type:' + data.value[i].type};
-
-					markers.push(marker);
-				}
-			},
-			function() {
-				// error
+	function getCameraMarkers() {
+		dataAccessService.getCameras('australia/speed-camera-au.json')
+		.then(function(data) {
+			var markers = [];
+			for(var i=0, len=data.value.length; i<len; i++) {
+				var marker = {id: data.value[i].id, latitude: data.value[i].latitude, longitude: data.value[i].longitude};
+				//marker.options = {labelContent: data.value[i].description + ' Speed Limit:' + data.value[i].speed_limit + ' Type:' + data.value[i].type};
+				markers.push(marker);
 			}
-		);
 
-		return markers;
+			$scope.cameraMarkers = markers;
+		}, function(error) {
+			// error
+		});
 	}
 
 
 	cameraMarkers.init = init;
-	cameraMarkers.getAllCameraMarkers = getAllCameraMarkers;
+	cameraMarkers.getCameraMarkers = getCameraMarkers;
 
 })();
 
@@ -55,17 +51,16 @@ mapsController.controller('MapsCtrl', [
 	'DataAccessService',
 
 	function($scope, uiGmapGoogleMapApi, $ionicSideMenuDelegate, dataAccessService) {
-
-		cameraMarkers.init(dataAccessService);
-		$scope.markers = cameraMarkers.getAllCameraMarkers();
-
 		$scope.toggleLeft = function() {
 	    	$ionicSideMenuDelegate.toggleLeft();
 	  	};
 
 		uiGmapGoogleMapApi.then(function(maps) {
-			$scope.map = { center: { latitude: -36.849837, longitude: 174.761099 }, zoom: 9 };
-	    });  
+			$scope.map = { center: { latitude: -34.932504, longitude: 138.597585 }, zoom: 9 };
+	    }); 
+
+	    cameraMarkers.init($scope, dataAccessService);
+		cameraMarkers.getCameraMarkers();
 	}
 ]);
 
