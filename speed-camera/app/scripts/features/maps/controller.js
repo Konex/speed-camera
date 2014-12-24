@@ -18,11 +18,15 @@ var cameraMarkers = {};
 		dataAccessService.getCameras('australia/speed-camera-au.json')
 		.then(function(data) {
 			var markers = [];
-			for(var i=0, len=data.value.length; i<len; i++) {
-				var marker = {id: data.value[i].id, latitude: data.value[i].latitude, longitude: data.value[i].longitude};
+			angular.forEach(data.value, function(item) {
+				var marker = {
+					id: item.id, 
+					latitude: item.latitude, 
+					longitude: item.longitude
+				};
 				//marker.options = {labelContent: data.value[i].description + ' Speed Limit:' + data.value[i].speed_limit + ' Type:' + data.value[i].type};
-				markers.push(marker);
-			}
+				markers.push(marker);	
+			});
 
 			$scope.cameraMarkers = markers;
 		}, function(error) {
@@ -38,7 +42,32 @@ var cameraMarkers = {};
 
 
 
+var ui = {};
+(function () {
+	var $scope;
 
+	function init(_$scope) {
+		$scope = _$scope;
+
+		setDefaults();
+		wireHandlers();
+	}
+
+	function setDefaults() {
+
+	}
+
+	function wireHandlers() {
+		$scope.markerClick = markerClick;
+	}
+
+	function markerClick(markerId) {
+
+	}
+
+	ui.init = init;
+
+})();
 
 
 
