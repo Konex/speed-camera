@@ -1,20 +1,22 @@
 'use strict';
 
-var dataAccessServices = angular.module('dataAccess.services', ['ngResource']);
+var dataAccessServices = angular.module('dataAccess.services', []);
 
-dataAccessServices.factory('DataAccessService', ['$resource',
+dataAccessServices.factory('DataAccessService', ['$http',
 	
-  	function($resource) {
+  	function($http) {
   		var dataAccessService = {};
 
   		dataAccessService.translateParam = function(countryCode) {
   			return 'speed-camera-' + countryCode;
   		};
 
-  		dataAccessService.getCameras = function() {
-			return $resource('assets/cameras/:fileName.json', {fileName: '@fileName'}, {
-		    	query: {method:'GET', params:{fileName:'speed-camera-au'}, isArray:true}
-		    });
+  		dataAccessService.getCameras = function(jsonFileName) {
+			return $http
+	        .get('assets/cameras/' + jsonFileName)
+	        .then(function (res) {
+	            return res.data;
+	        });
   		};
 
   		return dataAccessService;

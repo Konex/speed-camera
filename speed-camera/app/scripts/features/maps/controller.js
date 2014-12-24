@@ -14,25 +14,30 @@ var cameraMarkers = {};
 
 	function getAllCameraMarkers() {
 		var markers = [];
-		var res = dataAccessService.getCameras().query();
 		
-		res.$promise.then(function(resData) {
-			if (resData && resData.value.length > 0) {
-				for(var i=0, len=resData.value.length; i<len; i++) {
-						var marker = {};
-						marker.id = resData.value[i].id;
-						marker.coords = {latitude: resData.value[i].latitude, longitude: resData.value[i].longitude};
-						marker.options = {labelContent: resData.value[i].description + ' Speed Limit:' + resData.value[i].speed_limit + ' Type:' + resData.value[i].type};
+		dataAccessService.getCameras('test.json').then(
+			function(data) {
+				for(var i=0, len=data.value.length; i<len; i++) {
+					var marker = {};
+					marker.id = data.value[i].id;
+					marker.coords = {latitude: data.value[i].latitude, longitude: data.value[i].longitude};
+					marker.options = {labelContent: data.value[i].description + ' Speed Limit:' + data.value[i].speed_limit + ' Type:' + data.value[i].type};
 
-						markers.push(marker);
-					}
+					markers.push(marker);
 				}
-		}) ;		
+			},
+			function() {
+				// error
+			}
+		);
+
 		return markers;
 	}
 
+
 	cameraMarkers.init = init;
 	cameraMarkers.getAllCameraMarkers = getAllCameraMarkers;
+
 })();
 
 

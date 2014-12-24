@@ -1,0 +1,48 @@
+{
+    "value": 
+    [
+        {
+            "id": 1,
+            "description": "Dequetteville Terrace,Botanic Road,Adelaide,SA",
+            "street": "Dequetteville Terrace",
+            "suburb": "Adelaide",
+            "state": "SA",
+            "speed_limit": 60,
+            "type": "intersection",
+            "latitude": -34.919634,
+            "longitude": 138.614993,
+            "reference": "",
+            "last_update_time": 1362413124,
+            "country": "Australia"
+        },
+        {
+            "id": 2,
+            "description": "Glover Avenue,West Terrace,Adelaide,SA",
+            "street": "Glover Avenue",
+            "suburb": "Adelaide",
+            "state": "SA",
+            "speed_limit": 60,
+            "type": "intersection",
+            "latitude": -34.92479,
+            "longitude": 138.587409,
+            "reference": "",
+            "last_update_time": 1362495521,
+            "country": "Australia"
+        },
+        {
+            "id": 3,
+            "description": "Greenhill Road,Hutt Road,Adelaide,SA",
+            "street": "Greenhill Road",
+            "suburb": "Adelaide",
+            "state": "SA",
+            "speed_limit": 60,
+            "type": "intersection",
+            "latitude": -34.940618,
+            "longitude": 138.612528,
+            "reference": "",
+            "last_update_time": 1364559103,
+            "country": "Australia"
+        }
+
+    ]
+}
