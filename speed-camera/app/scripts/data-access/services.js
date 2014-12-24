@@ -1,59 +1,22 @@
 'use strict';
 
-var dataAccessServices = angular.module('dataAccess.services', []);
+var dataAccessServices = angular.module('dataAccess.services', ['ngResource']);
 
-dataAccessServices.factory('DataAccessService', [
-	'$cordovaSQLite',
-  
-  	function($cordovaSQLite) {
+dataAccessServices.factory('DataAccessService', ['$resource',
+	
+  	function($resource) {
   		var dataAccessService = {};
 
-  		dataAccessService.createDB = function() {
-
+  		dataAccessService.translateParam = function(countryCode) {
+  			return 'speed-camera-' + countryCode;
   		};
 
-  		dataAccessService.openDB = function() {
-  			var dbPath = '../assets/db/speed-camera.sqlite';
-  			return $cordovaSQLite.openDB({ name: dbPath });
+  		dataAccessService.getCameras = function() {
+			return $resource('assets/cameras/:fileName.json', {fileName: '@fileName'}, {
+		    	query: {method:'GET', params:{fileName:'speed-camera-au'}, isArray:true}
+		    });
   		};
 
-  		dataAccessService.insert = function() {
-
-  		};
-
-  		dataAccessService.select = function(query) {
-  		
-        	$cordovaSQLite.execute(db, query, []).then(function(res) {
-            
-	            if(res.rows.length > 0) {
-	                console.log("SELECTED -> " + res.rows.item(0).description + " " + res.rows.item(0).description);
-	                return res;
-	            } else {
-	                console.log("No results found");
-	                return null;
-	            }
-        	}, 
-        	function (e) {
-            	console.error(e);
-        	});
-  		};
-
-  		dataAccessService.getAllCameras = function(db) {
-  			var query = 'SELECT * FROM cameras';
-  			$cordovaSQLite.execute(db, query, []).then(function(res) {
-            
-	            if(res.rows.length > 0) {
-	                console.log("SELECTED -> " + res.rows.item(0).description + " " + res.rows.item(0).description);
-	                return res;
-	            } else {
-	                console.log("No results found");
-	                return null;
-	            }
-        	}, 
-        	function (e) {
-            	console.error(e);
-        	});	
-  		};
-
-    });
-}]);
+  		return dataAccessService;
+	}
+]);

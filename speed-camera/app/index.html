@@ -42,8 +42,8 @@
     <!-- endbuild -->
 
     <!-- cordova script (this will be a 404 during development) -->
-    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="cordova.js"></script>
+    <script src="lib/angular-resource/angular-resource.min.js"></script>
     <script src='lib/angular-google-maps/dist/angular-google-maps.min.js'></script>
 
     <!-- build:js scripts/scripts.js -->
@@ -54,6 +54,9 @@
     <script src="scripts/common/security/security.js"></script>
     <script src="scripts/common/security/auth.js"></script>
     <script src="scripts/common/security/constants.js"></script>
+
+    <script src="scripts/data-access/dataAccess.js"></script>
+    <script src="scripts/data-access/services.js"></script>
     
     <script src="scripts/features/signin/signin.js"></script>
     <script src="scripts/features/signin/controller.js"></script>
