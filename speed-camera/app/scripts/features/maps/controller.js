@@ -4,14 +4,18 @@ var mapsController = angular.module('maps.controller', [
 
 
 
+
+
+
 var cameraMarkers = {};
 (function () {
-	var $scope, $ionicPopup, dataAccessService;
+	var $scope, $ionicPopup, dataAccessService, _;
 
-	function init(_$scope, _$ionicPopup, _dataAccessService) {
+	function init(_$scope, _$ionicPopup, _dataAccessService, _loDash) {
 		$scope = _$scope;
 		$ionicPopup = _$ionicPopup;
 		dataAccessService = _dataAccessService;
+		_ = _loDash;
 		$scope.cameraMarkers = [];
 	}
 
@@ -33,28 +37,44 @@ var cameraMarkers = {};
 				latitude: item.latitude, 
 				longitude: item.longitude
 			};
-			//marker.options = {labelContent: data.value[i].description + ' Speed Limit:' + data.value[i].speed_limit + ' Type:' + data.value[i].type};
+
+			marker.onClicked = function(item) {
+				var title = 'Camera Info';
+				var description = buildMarkerDescription(item); 
+
+				var alertPopup = $ionicPopup.alert({
+			     	title: title,
+			     	template: description
+			   	});
+			   	
+			   	alertPopup.then(function(res) {
+			     	console.log('');
+			   });
+			};
+
 			markers.push(marker);	
 		});
 	}
 
-	function markerClick(marker) {
-		var title = 'Info';
-		var description = 'Sorry we can\'t find anything about this camera.';
-		if (marker && !_.isEmpty(marker)) {
-			description = marker.description;
-		} 
+	function buildMarkerDescription(markerItem) {
+		var description = '';
+		if (markerItem && !_.isEmpty(markerItem)) {
+			
+			if (!_.isUndefined(markerItem.description))
+				description += markerItem.description + '\n';
 
-		var alertPopup = $ionicPopup.alert({
-	     	title: title,
-	     	template: description
-	   	});
-	   	
-	   	alertPopup.then(function(res) {
-	     	console.log('');
-	   });
+			if (!_.isUndefined(markerItem.speed_limit))
+				description += 'Speed Limit:' + markerItem.speed_limit + '\n';
+
+			if (!_.isUndefined(markerItem.type))
+				description += 'Type:' + markerItem.type;
+		}
+
+		if (_.isEmpty(description))
+			description = 'Sorry we can\'t find anything about this camera.';
+
+		return description;
 	}
-
 
 	cameraMarkers.init = init;
 	cameraMarkers.getCameraMarkers = getCameraMarkers;
@@ -81,25 +101,7 @@ var ui = {};
 	}
 
 	function wireHandlers() {
-		$scope.markerClick = markerClick;
-	}
-
-	function markerClick(markerId) {
-		var marker = _.findWhere($scope.cameraMarkers, {id: markerId});
-		var title = 'Info';
-		var description = 'Sorry we can\'t find anything about this camera.';
-		if (marker && !_.isEmpty(marker)) {
-			description = marker.description;
-		} 
-
-		var alertPopup = $ionicPopup.alert({
-	     	title: title,
-	     	template: description
-	   	});
-	   	
-	   	alertPopup.then(function(res) {
-	     	console.log('');
-	   });
+		
 	}
 
 	ui.init = init;
@@ -127,10 +129,8 @@ mapsController.controller('MapsCtrl', [
 			$scope.map = { center: { latitude: -34.932504, longitude: 138.597585 }, zoom: 9 };
 	    }); 
 
-	    cameraMarkers.init($scope, $ionicPopup, dataAccessService);
+	    cameraMarkers.init($scope, $ionicPopup, dataAccessService, _);
 		cameraMarkers.getCameraMarkers();
-
-		//ui.init($scope, $ionicPopup, _);
 	}
 ]);
 
