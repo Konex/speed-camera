@@ -9,11 +9,10 @@ var mapsController = angular.module('maps.controller', [
 
 var cameraMarkers = {};
 (function () {
-	var $scope, $ionicPopup, dataAccessService, _;
+	var $scope, dataAccessService, _;
 
-	function init(_$scope, _$ionicPopup, _dataAccessService, _loDash) {
+	function init(_$scope, _dataAccessService, _loDash) {
 		$scope = _$scope;
-		$ionicPopup = _$ionicPopup;
 		dataAccessService = _dataAccessService;
 		_ = _loDash;
 		$scope.cameraMarkers = [];
@@ -32,42 +31,35 @@ var cameraMarkers = {};
 
 	function setMarkers(markers, data) {	
 		angular.forEach(data.value, function(item) {
-			var marker = {
-				id: item.id, 
-				latitude: item.latitude, 
-				longitude: item.longitude
-			};
-
-			marker.onClicked = function(item) {
-				var title = 'Camera Info';
-				var description = buildMarkerDescription(item); 
-
-				var alertPopup = $ionicPopup.alert({
-			     	title: title,
-			     	template: description
-			   	});
-			   	
-			   	alertPopup.then(function(res) {
-			     	console.log('');
-			   });
-			};
-
-			markers.push(marker);	
+			markers.push(buildMarker(item));	
 		});
 	}
 
+	function buildMarker(markerItem) {
+		var marker = {
+			id: markerItem.id, 
+			latitude: markerItem.latitude, 
+			longitude: markerItem.longitude,
+			show: false,
+			description: buildMarkerDescription(markerItem)
+		};
+
+		marker.onClicked = function() {
+			marker.show = !marker.show;
+		};
+
+		return marker;		
+	} 
+
 	function buildMarkerDescription(markerItem) {
 		var description = '';
-		if (markerItem && !_.isEmpty(markerItem)) {
-			
-			if (!_.isUndefined(markerItem.description))
-				description += markerItem.description + '\n';
-
+		
+		if (markerItem && !_.isUndefined(markerItem)) {
 			if (!_.isUndefined(markerItem.speed_limit))
-				description += 'Speed Limit:' + markerItem.speed_limit + '\n';
+				description += 'Speed Limit: ' + markerItem.speed_limit + '\r\n';
 
 			if (!_.isUndefined(markerItem.type))
-				description += 'Type:' + markerItem.type;
+				description += markerItem.type + ' camera';
 		}
 
 		if (_.isEmpty(description))
@@ -83,44 +75,15 @@ var cameraMarkers = {};
 
 
 
-var ui = {};
-(function () {
-	var $scope, $ionicPopup, _;
-
-	function init(_$scope, _$ionicPopup, _loDash) {
-		$scope = _$scope;
-		$ionicPopup = _$ionicPopup;
-		_ = _loDash;
-
-		setDefaults();
-		wireHandlers();
-	}
-
-	function setDefaults() {
-
-	}
-
-	function wireHandlers() {
-		
-	}
-
-	ui.init = init;
-
-})();
-
-
-
-
 
 mapsController.controller('MapsCtrl', [
 	'$scope',
 	'uiGmapGoogleMapApi',
 	'$ionicSideMenuDelegate',
 	'DataAccessService',
-	'$ionicPopup',
 	'_',
 
-	function($scope, uiGmapGoogleMapApi, $ionicSideMenuDelegate, dataAccessService, $ionicPopup, _) {
+	function($scope, uiGmapGoogleMapApi, $ionicSideMenuDelegate, dataAccessService, _) {
 		$scope.toggleLeft = function() {
 	    	$ionicSideMenuDelegate.toggleLeft();
 	  	};
@@ -129,7 +92,7 @@ mapsController.controller('MapsCtrl', [
 			$scope.map = { center: { latitude: -34.932504, longitude: 138.597585 }, zoom: 9 };
 	    }); 
 
-	    cameraMarkers.init($scope, $ionicPopup, dataAccessService, _);
+	    cameraMarkers.init($scope, dataAccessService, _);
 		cameraMarkers.getCameraMarkers();
 	}
 ]);
