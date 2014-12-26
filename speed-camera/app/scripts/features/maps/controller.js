@@ -74,6 +74,35 @@ var cameraMarkers = {};
 })();
 
 
+var ui ={};
+(function (){
+	var $scope;
+
+	function init(_$scope) {
+		$scope = _$scope;
+
+		setDefaults();
+		wireHandlers();
+	}
+
+	function setDefaults() {
+		$scope.weatherOnOff = true;
+	}
+
+	function wireHandlers() {
+		//$scope.weatherToggleChange = weatherToggleChange;
+	}
+
+	function weatherToggleChange() {
+		if($scope.weatherOnOff) 
+			weatherLayer.setMap($scope.map);
+		else 
+			weatherLayer.setMap(null);
+	}
+
+	ui.init = init;
+})();
+
 
 
 mapsController.controller('MapsCtrl', [
@@ -94,6 +123,8 @@ mapsController.controller('MapsCtrl', [
 
 	    cameraMarkers.init($scope, dataAccessService, _);
 		cameraMarkers.getCameraMarkers();
+
+		ui.init($scope);
 	}
 ]);
 

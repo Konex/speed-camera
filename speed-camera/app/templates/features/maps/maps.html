@@ -13,10 +13,10 @@
 		  		<ui-gmap-google-map center='map.center' zoom='map.zoom'>
 
 		  			<ui-gmap-markers models="cameraMarkers" coords="'self'" click="'onClicked'">
-	  					<ui-gmap-windows show="show">
-			                <div ng-non-bindable>{{description}}</div>
-			            </ui-gmap-windows>
+	  					<ui-gmap-windows show="show"> <div ng-non-bindable>{{description}}</div></ui-gmap-windows>
 	  				</ui-gmap-markers>
+
+	  				<ui-gmap-layer namespace="weather" type="WeatherLayer" show="weatherOnOff"></ui-gmap-layer>	  				
 
 		  		</ui-gmap-google-map>
 			
@@ -31,8 +31,9 @@
 			<ion-content has-header="true">
 				
 				<div class="item item-divider">Maps</div>
-		        <div class="list">    
-		            <ion-toggle ng-model="trafficMode" toggle-class="toggle-energized">Traffic</ion-toggle>
+		        <div class="list">
+		        	<ion-toggle ng-model="weatherOnOff" toggle-class="toggle-energized">Weather</ion-toggle>    
+		            <ion-toggle ng-model="trafficOnOff" toggle-class="toggle-energized">Traffic</ion-toggle>
 		            <ion-toggle ng-model="mobileCameraMode" toggle-class="toggle-energized">Mobile Camera</ion-toggle>
 		        </div>
 
