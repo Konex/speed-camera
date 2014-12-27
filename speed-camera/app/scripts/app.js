@@ -1,6 +1,7 @@
 'use strict';
 
 var mars = angular.module('Mars', [
+    'ngCordova',
     'ionic',
     'ngAnimate', 
     'config',

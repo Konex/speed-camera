@@ -11,6 +11,9 @@
 			<ion-content has-header="true" padding="true">
 		  		
 		  		<ui-gmap-google-map center='map.center' zoom='map.zoom'>
+		  			
+		  			<ui-gmap-marker coords="currentLocationMarker.coords">
+        			</ui-gmap-marker>
 
 		  			<ui-gmap-markers models="cameraMarkers" coords="'self'" click="'onClicked'">
 	  					<ui-gmap-windows show="show"> <div ng-non-bindable>{{description}}</div></ui-gmap-windows>

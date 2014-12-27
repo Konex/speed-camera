@@ -74,20 +74,97 @@ var cameraMarkers = {};
 })();
 
 
-var ui ={};
-(function (){
-	var $scope, $log, $timeout;
 
-	function init(_$scope, _$log, _$timeout) {
+
+
+var currentLocation = {};
+(function (){
+
+	var $scope, $cordovaGeolocation, watch;
+
+	function init(_$scope, _$cordovaGeolocation) {
+		$scope = _$scope;
+		$cordovaGeolocation = _$cordovaGeolocation;
+	}
+
+	function getCurrentLocation() {
+		var currentPosition = {};
+		var posOptions = {timeout: 10000, enableHighAccuracy: false};
+
+	  	$cordovaGeolocation
+		    .getCurrentPosition(posOptions)
+		    .then(function (position) {
+		      currentPosition.lat  = position.coords.latitude
+		      currentPosition.lng  = position.coords.longitude
+		    }, function(err) {
+	      		// error
+	    	}
+    	);
+
+	    $scope.currentPosition = currentPosition;
+	}
+
+	function watchCurrentLocation() {
+		var watchOptions = {
+    		frequency :         1000,
+    		timeout :           3000,
+    		enableHighAccuracy: false // may cause errors if true
+  		};
+
+	  	watch = $cordovaGeolocation.watchPosition(watchOptions);
+	  	watch.then(
+	    	null,
+		    function(err) {
+		      // error
+		    },
+		    function(position) {
+	      		var lat  = position.coords.latitude
+		      	var lng  = position.coords.longitude
+		  	}
+	  	);
+	}
+
+	function clearWatch() {
+		watch.clearWatch();
+		// OR
+  		// $cordovaGeolocation.clearWatch(watch)
+    // 		.then(function(result) {
+    //   		// success
+    //   		}, function (error) {
+    //   		// error
+    // 		}
+    // 	);
+	}
+
+	currentLocation.init = init;
+	currentLocation.getCurrentLocation = getCurrentLocation;
+	currentLocation.watchCurrentLocation = watchCurrentLocation; 
+	currentLocation.clearWatch = clearWatch;
+})();
+
+
+
+
+
+
+var ui = {};
+(function (){
+	var $scope, $log, $ionicSideMenuDelegate;
+
+	function init(_$scope, _$log, _$ionicSideMenuDelegate) {
 		$scope = _$scope;
 		$log = _$log;
-		$timeout = _$timeout;
-
+		$ionicSideMenuDelegate = _$ionicSideMenuDelegate;
+		
 		setDefaults();
 		wireHandlers();
 	}
 
 	function setDefaults() {
+		$scope.toggleLeft = function() {
+	    	$ionicSideMenuDelegate.toggleLeft();
+	  	};
+
 		$scope.weatherOnOff = {text: 'Weather', checked: false};
 		$scope.trafficOnOff = {text: 'Traffic', checked: false};
 	}
@@ -101,28 +178,54 @@ var ui ={};
 
 
 
+
+
+
+var currentLocationMarker = {};
+(function () {
+
+	function buildCurrentLocationMarker($scope) {
+
+		if ($scope.currentPosition && !_.isEmpty($scope.currentPosition)) {
+			$scope.currentLocationMarker = {
+				id: 0,
+				coords: {latitude: $scope.currentPosition.lat, longitude: $scope.currentPosition.lng}
+			};
+		}
+	}
+
+	currentLocationMarker.buildCurrentLocationMarker = buildCurrentLocationMarker;
+})();
+
+
+
+
+
+
 mapsController.controller('MapsCtrl', [
 	'$scope',
 	'$log',
 	'$timeout',
 	'uiGmapGoogleMapApi',
 	'$ionicSideMenuDelegate',
+	'$cordovaGeolocation',
 	'DataAccessService',
 	'_',
 
-	function($scope, $log, $timeout, uiGmapGoogleMapApi, $ionicSideMenuDelegate, dataAccessService, _) {
-		$scope.toggleLeft = function() {
-	    	$ionicSideMenuDelegate.toggleLeft();
-	  	};
+	function($scope, $log, $timeout, uiGmapGoogleMapApi, $ionicSideMenuDelegate, $cordovaGeolocation, dataAccessService, _) {
+		currentLocation.init($scope, $cordovaGeolocation);
+		currentLocation.getCurrentLocation();
 
 		uiGmapGoogleMapApi.then(function(maps) {
 			$scope.map = { center: { latitude: -34.932504, longitude: 138.597585 }, zoom: 9 };
 	    }); 
 
+	    currentLocationMarker.buildCurrentLocationMarker($scope);
+
 	    cameraMarkers.init($scope, dataAccessService, _);
 		cameraMarkers.getCameraMarkers();
 
-		ui.init($scope, $log, $timeout);
+		ui.init($scope, $log, $ionicSideMenuDelegate);
 	}
 ]);
 
