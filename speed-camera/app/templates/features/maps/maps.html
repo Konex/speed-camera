@@ -17,6 +17,7 @@
 	  				</ui-gmap-markers>
 
 	  				<ui-gmap-layer namespace="weather" type="WeatherLayer" show="weatherOnOff.checked"></ui-gmap-layer>
+	  				<ui-gmap-layer type="TrafficLayer" show="trafficOnOff.checked"></ui-gmap-layer>
 
 		  		</ui-gmap-google-map>
 			
@@ -32,8 +33,10 @@
 				
 				<div class="item item-divider">Maps</div>
 		        <div class="list">
-		        	<ion-toggle ng-model="weatherOnOff.checked" ng-check="weatherOnOff.checked" toggle-class="toggle-energized">Weather</ion-toggle>    
-		            <ion-toggle ng-model="trafficOnOff" toggle-class="toggle-energized">Traffic</ion-toggle>
+		        	<ion-toggle ng-model="weatherOnOff.checked" ng-check="weatherOnOff.checked" toggle-class="toggle-energized">Weather</ion-toggle> 
+
+		            <ion-toggle ng-model="trafficOnOff.checked" ng-check="trafficOnOff.checked" toggle-class="toggle-energized">Traffic</ion-toggle>
+		            
 		            <ion-toggle ng-model="mobileCameraMode" toggle-class="toggle-energized">Mobile Camera</ion-toggle>
 		        </div>
 

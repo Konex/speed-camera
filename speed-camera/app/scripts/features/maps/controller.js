@@ -89,6 +89,7 @@ var ui ={};
 
 	function setDefaults() {
 		$scope.weatherOnOff = {text: 'Weather', checked: false};
+		$scope.trafficOnOff = {text: 'Traffic', checked: false};
 	}
 
 	function wireHandlers() {
