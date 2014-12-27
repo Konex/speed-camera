@@ -118,22 +118,16 @@ var currentLocation = {};
 		      // error
 		    },
 		    function(position) {
-	      		var lat  = position.coords.latitude
-		      	var lng  = position.coords.longitude
-		  	}
+	      		$scope.currentPosition.latitude  = position.coords.latitude
+		      	$scope.currentPosition.longitude  = position.coords.longitude
+
+		      	currentLocationMarker.buildCurrentLocationMarker($scope);
+		  	} 
 	  	);
 	}
 
 	function clearWatch() {
 		watch.clearWatch();
-		// OR
-  		// $cordovaGeolocation.clearWatch(watch)
-    // 		.then(function(result) {
-    //   		// success
-    //   		}, function (error) {
-    //   		// error
-    // 		}
-    // 	);
 	}
 
 	currentLocation.init = init;
@@ -186,7 +180,7 @@ var currentLocationMarker = {};
 
 	function buildCurrentLocationMarker($scope) {
 
-		if ($scope.currentPosition && !_.isEmpty($scope.currentPosition)) {
+		if (!_.isUndefined($scope.currentPosition) && !_.isEmpty($scope.currentPosition)) {
 			$scope.currentLocationMarker = {
 				id: 0,
 				coords: {latitude: $scope.currentPosition.lat, longitude: $scope.currentPosition.lng}
@@ -217,10 +211,12 @@ mapsController.controller('MapsCtrl', [
 		currentLocation.getCurrentLocation();
 
 		uiGmapGoogleMapApi.then(function(maps) {
-			$scope.map = { center: { latitude: -34.932504, longitude: 138.597585 }, zoom: 9 };
+			$scope.map = { center: { latitude: -36.849562, longitude: 174.764876 }, zoom: 9 };
 	    }); 
 
 	    currentLocationMarker.buildCurrentLocationMarker($scope);
+
+	    currentLocation.watchCurrentLocation();
 
 	    cameraMarkers.init($scope, dataAccessService, _);
 		cameraMarkers.getCameraMarkers();
