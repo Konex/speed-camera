@@ -76,28 +76,23 @@ var cameraMarkers = {};
 
 var ui ={};
 (function (){
-	var $scope;
+	var $scope, $log, $timeout;
 
-	function init(_$scope) {
+	function init(_$scope, _$log, _$timeout) {
 		$scope = _$scope;
+		$log = _$log;
+		$timeout = _$timeout;
 
 		setDefaults();
 		wireHandlers();
 	}
 
 	function setDefaults() {
-		$scope.weatherOnOff = true;
+		$scope.weatherOnOff = {text: 'Weather', checked: false};
 	}
 
 	function wireHandlers() {
-		//$scope.weatherToggleChange = weatherToggleChange;
-	}
-
-	function weatherToggleChange() {
-		if($scope.weatherOnOff) 
-			weatherLayer.setMap($scope.map);
-		else 
-			weatherLayer.setMap(null);
+		
 	}
 
 	ui.init = init;
@@ -107,12 +102,14 @@ var ui ={};
 
 mapsController.controller('MapsCtrl', [
 	'$scope',
+	'$log',
+	'$timeout',
 	'uiGmapGoogleMapApi',
 	'$ionicSideMenuDelegate',
 	'DataAccessService',
 	'_',
 
-	function($scope, uiGmapGoogleMapApi, $ionicSideMenuDelegate, dataAccessService, _) {
+	function($scope, $log, $timeout, uiGmapGoogleMapApi, $ionicSideMenuDelegate, dataAccessService, _) {
 		$scope.toggleLeft = function() {
 	    	$ionicSideMenuDelegate.toggleLeft();
 	  	};
@@ -124,7 +121,7 @@ mapsController.controller('MapsCtrl', [
 	    cameraMarkers.init($scope, dataAccessService, _);
 		cameraMarkers.getCameraMarkers();
 
-		ui.init($scope);
+		ui.init($scope, $log, $timeout);
 	}
 ]);
 
