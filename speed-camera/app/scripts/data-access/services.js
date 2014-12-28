@@ -5,8 +5,8 @@ var dataAccessServices = angular.module('dataAccess.services', []);
 dataAccessServices.factory('DataAccessService', ['$http', '$q', function($http, $q) {
   	var dataAccessService = {};
 
-	dataAccessService.translateParam = function(countryCode) {
-		return 'speed-camera-' + countryCode;
+	dataAccessService.translateParam = function(country, stateShortName) {
+		return country + '/' + stateShortName + '.json';
 	};
 
 	dataAccessService.getCameras = function(jsonFileName) {
