@@ -12,7 +12,10 @@
 		  		
 		  		<ui-gmap-google-map center='map.center' zoom='map.zoom'>
 		  			
-		  			<ui-gmap-marker coords="currentLocationMarker.coords" idkey="currentLocationMarker.id">
+		  			<ui-gmap-marker 
+		  				coords="currentLocationMarker.coords" 
+		  				idkey="currentLocationMarker.id"
+		  				>
         			</ui-gmap-marker>
 
 		  			<ui-gmap-markers models="cameraMarkers" coords="'self'" click="'onClicked'">

@@ -77,57 +77,86 @@ var cameraMarkers = {};
 
 
 
+var currentLocationMarker = {};
+(function () {
+
+	function buildCurrentLocationMarker($scope) {
+
+		if (!_.isUndefined($scope.currentPosition) && !_.isEmpty($scope.currentPosition)) {
+			$scope.currentLocationMarker = {
+				id: 0,
+				coords: {latitude: $scope.currentPosition.lat, longitude: $scope.currentPosition.lng}
+			};
+		}
+	}
+
+	currentLocationMarker.buildCurrentLocationMarker = buildCurrentLocationMarker;
+})();
+
+
+
+
+
+
 var currentLocation = {};
 (function (){
 
-	var $scope, $cordovaGeolocation, watch;
+	var $scope, $cordovaGeolocation, $ionicPlatform, watch;
 
-	function init(_$scope, _$cordovaGeolocation) {
-		$scope = _$scope;
+	function init(_$scope, _$cordovaGeolocation, _$ionicPlatform) {
+		$scope              = _$scope;
 		$cordovaGeolocation = _$cordovaGeolocation;
+		$ionicPlatform      = _$ionicPlatform;
 	}
 
 	function getCurrentLocation() {
-		var currentPosition = {};
-		var posOptions = {timeout: 10000, enableHighAccuracy: false};
+		$ionicPlatform.ready(function() {
+			var currentPosition = {};
+			var posOptions = {timeout: 10000, enableHighAccuracy: false};
 
-	  	$cordovaGeolocation
-		    .getCurrentPosition(posOptions)
-		    .then(function (position) {
-		      currentPosition.lat  = position.coords.latitude
-		      currentPosition.lng  = position.coords.longitude
-		    }, function(err) {
-	      		// error
-	    	}
-    	);
+		  	$cordovaGeolocation
+			    .getCurrentPosition(posOptions)
+			    .then(function (position) {
+			      currentPosition.lat  = position.coords.latitude
+			      currentPosition.lng  = position.coords.longitude
+			    }, function(err) {
+		      		// error
+		    	}
+	    	);
 
-	    $scope.currentPosition = currentPosition;
+		    $scope.currentPosition = currentPosition;
+		});
 	}
 
 	function watchCurrentLocation() {
-		var watchOptions = {
-    		frequency :         1000,
-    		timeout :           3000,
-    		enableHighAccuracy: false // may cause errors if true
-  		};
+		$ionicPlatform.ready(function() {
+			var watchOptions = {
+	    		frequency :         1000,
+	    		timeout :           3000,
+	    		enableHighAccuracy: false // may cause errors if true
+	  		};
 
-	  	watch = $cordovaGeolocation.watchPosition(watchOptions);
-	  	watch.then(
-	    	null,
-		    function(err) {
-		      // error
-		    },
-		    function(position) {
-	      		$scope.currentPosition.latitude  = position.coords.latitude
-		      	$scope.currentPosition.longitude  = position.coords.longitude
+		  	watch = $cordovaGeolocation.watchPosition(watchOptions);
+		  	watch.then(
+		    	null,
+			    function(err) {
+			      // error
+			    },
+			    function(position) {
+		      		$scope.currentPosition.latitude  = position.coords.latitude
+			      	$scope.currentPosition.longitude  = position.coords.longitude
 
-		      	currentLocationMarker.buildCurrentLocationMarker($scope);
-		  	} 
-	  	);
+			      	currentLocationMarker.buildCurrentLocationMarker($scope);
+			  	} 
+		  	);
+		});
 	}
 
 	function clearWatch() {
-		watch.clearWatch();
+		$ionicPlatform.ready(function() {
+			if (!_.isUndefined(watch))
+				watch.clearWatch();
+		});
 	}
 
 	currentLocation.init = init;
@@ -175,21 +204,7 @@ var ui = {};
 
 
 
-var currentLocationMarker = {};
-(function () {
 
-	function buildCurrentLocationMarker($scope) {
-
-		if (!_.isUndefined($scope.currentPosition) && !_.isEmpty($scope.currentPosition)) {
-			$scope.currentLocationMarker = {
-				id: 0,
-				coords: {latitude: $scope.currentPosition.lat, longitude: $scope.currentPosition.lng}
-			};
-		}
-	}
-
-	currentLocationMarker.buildCurrentLocationMarker = buildCurrentLocationMarker;
-})();
 
 
 
@@ -202,22 +217,21 @@ mapsController.controller('MapsCtrl', [
 	'$timeout',
 	'uiGmapGoogleMapApi',
 	'$ionicSideMenuDelegate',
+	'$ionicPlatform',
 	'$cordovaGeolocation',
 	'DataAccessService',
 	'_',
 
-	function($scope, $log, $timeout, uiGmapGoogleMapApi, $ionicSideMenuDelegate, $cordovaGeolocation, dataAccessService, _) {
-		currentLocation.init($scope, $cordovaGeolocation);
-		currentLocation.getCurrentLocation();
-
+	function($scope, $log, $timeout, uiGmapGoogleMapApi, $ionicSideMenuDelegate, $ionicPlatform, $cordovaGeolocation, dataAccessService, _) {		
 		uiGmapGoogleMapApi.then(function(maps) {
 			$scope.map = { center: { latitude: -36.849562, longitude: 174.764876 }, zoom: 9 };
 	    }); 
 
-	    currentLocationMarker.buildCurrentLocationMarker($scope);
-
+	    currentLocation.init($scope, $cordovaGeolocation, $ionicPlatform);
+		currentLocation.getCurrentLocation();
 	    currentLocation.watchCurrentLocation();
 
+	    currentLocationMarker.buildCurrentLocationMarker($scope);
 	    cameraMarkers.init($scope, dataAccessService, _);
 		cameraMarkers.getCameraMarkers();
 
