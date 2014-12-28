@@ -85,6 +85,7 @@ var currentLocationMarker = {};
 		if (!_.isUndefined($scope.currentPosition) && !_.isEmpty($scope.currentPosition)) {
 			$scope.currentLocationMarker = {
 				id: 0,
+				icon: 'https://chart.googleapis.com/chart?chst=d_map_spin&chld=1|0|FFFF42|11|b|Me',
 				coords: {latitude: $scope.currentPosition.lat, longitude: $scope.currentPosition.lng}
 			};
 		}
