@@ -8,23 +8,39 @@ var userPreferences = {};
 (function() {
 
 	var userSettings = {
-		maps:  {weatherOnOff:    false, trafficOnOff:      false, mobileCameraOnOff: false},
-		phone: {soundOnOff:      false, vibrationOnOff:    false},
-		user:  {myLocationOnOff: true,  needForSpeedOnOff: false, country: '', state: ''}
+		weatherOnOff:      {text: 'Weather',        checked: false},  
+		trafficOnOff:      {text: 'Traffic',        checked: false},
+		mobileCameraOnOff: {text: 'Mobile Camera',  checked: false}, 		
+		soundOnOff:        {text: 'Sound',          checked: false},
+		vibrationOnOff:    {text: 'Vibration',      checked: false},
+		myLocationOnOff:   {text: 'My Location',    checked: false},
+		needForSpeedOnOff: {text: 'Need For Speed', checked: false},
+		country: '',
+		state: ''
 	};
 
 	var $scope;
 
 	function init(_$scope) {
 		$scope = _$scope;
+		$scope.userSettings = userSettings;
 	}
 
 	function getUserPreferences() {
 
 	}
 
+	function setPublicMethods() {
+		
+	}
+
+
 	userPreferences.init = init;
+	userPreferences.getUserPreferences = getUserPreferences;
+	userPreferences.setPublicMethods = setPublicMethods; 
 })();
+
+
 
 
 var currentUser = {};
@@ -68,6 +84,6 @@ applicationController.controller('ApplicationController', [
 		// TODO: setup user auth if needed
 		//currentUser.init($scope, USER_ROLES, AuthService);
 
-		
+		userPreferences.init($scope);
 	}
 ]);

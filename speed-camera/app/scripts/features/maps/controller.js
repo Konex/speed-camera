@@ -12,9 +12,9 @@ var cameraMarkers = {};
 	var $scope, dataAccessService, _;
 
 	function init(_$scope, _dataAccessService, _loDash) {
-		$scope = _$scope;
-		dataAccessService = _dataAccessService;
-		_ = _loDash;
+		$scope               = _$scope;
+		dataAccessService    = _dataAccessService;
+		_                    = _loDash;
 		$scope.cameraMarkers = [];
 	}
 
@@ -28,6 +28,25 @@ var cameraMarkers = {};
 			// error
 		});
 	}
+
+	// TODO: get markers by current location
+	// function getCameraMarkers() {
+	// 	if($scope.currentPosition && !_.isEmpty($scope.currentPosition)) {
+
+	// 	} else {
+	// 		// show popup
+	// 	}
+
+	// 	dataAccessService.getCameras('australia/speed-camera-au.json')
+	// 	.then(function(data) {
+	// 		var markers = [];
+	// 		setMarkers(markers, data);
+	// 		$scope.cameraMarkers = markers;
+	// 	}, function(error) {
+	// 		// error
+	// 	});
+	// }
+
 
 	function setMarkers(markers, data) {	
 		angular.forEach(data.value, function(item) {
@@ -86,7 +105,7 @@ var currentLocationMarker = {};
 			$scope.currentLocationMarker = {
 				id: 0,
 				icon: 'https://chart.googleapis.com/chart?chst=d_map_spin&chld=1|0|FFFF42|11|b|Me',
-				coords: {latitude: $scope.currentPosition.lat, longitude: $scope.currentPosition.lng}
+				coords: {latitude: $scope.currentPosition.latitude, longitude: $scope.currentPosition.longitude}
 			};
 		}
 	}
@@ -108,24 +127,22 @@ var currentLocation = {};
 		$scope              = _$scope;
 		$cordovaGeolocation = _$cordovaGeolocation;
 		$ionicPlatform      = _$ionicPlatform;
+		$scope.currentPosition = {};
 	}
 
 	function getCurrentLocation() {
 		$ionicPlatform.ready(function() {
-			var currentPosition = {};
 			var posOptions = {timeout: 10000, enableHighAccuracy: false};
 
 		  	$cordovaGeolocation
 			    .getCurrentPosition(posOptions)
 			    .then(function (position) {
-			      currentPosition.lat  = position.coords.latitude
-			      currentPosition.lng  = position.coords.longitude
+			      $scope.currentPosition.latitude   = position.coords.latitude
+			      $scope.currentPosition.longitude  = position.coords.longitude
 			    }, function(err) {
 		      		// error
 		    	}
 	    	);
-
-		    $scope.currentPosition = currentPosition;
 		});
 	}
 
@@ -144,7 +161,7 @@ var currentLocation = {};
 			      // error
 			    },
 			    function(position) {
-		      		$scope.currentPosition.latitude  = position.coords.latitude
+		      		$scope.currentPosition.latitude   = position.coords.latitude
 			      	$scope.currentPosition.longitude  = position.coords.longitude
 
 			      	currentLocationMarker.buildCurrentLocationMarker($scope);
@@ -188,9 +205,6 @@ var ui = {};
 		$scope.toggleLeft = function() {
 	    	$ionicSideMenuDelegate.toggleLeft();
 	  	};
-
-		$scope.weatherOnOff = {text: 'Weather', checked: false};
-		$scope.trafficOnOff = {text: 'Traffic', checked: false};
 	}
 
 	function wireHandlers() {

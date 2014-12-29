@@ -22,8 +22,8 @@
 	  					<ui-gmap-windows show="show"> <div ng-non-bindable>{{description}}</div></ui-gmap-windows>
 	  				</ui-gmap-markers>
 
-	  				<ui-gmap-layer namespace="weather" type="WeatherLayer" show="weatherOnOff.checked"></ui-gmap-layer>
-	  				<ui-gmap-layer type="TrafficLayer" show="trafficOnOff.checked"></ui-gmap-layer>
+	  				<ui-gmap-layer namespace="weather" type="WeatherLayer" show="userSettings.weatherOnOff.checked"></ui-gmap-layer>
+	  				<ui-gmap-layer type="TrafficLayer" show="userSettings.trafficOnOff.checked"></ui-gmap-layer>
 
 		  		</ui-gmap-google-map>
 			
@@ -39,23 +39,23 @@
 				
 				<div class="item item-divider">Maps</div>
 		        <div class="list">
-		        	<ion-toggle ng-model="weatherOnOff.checked" ng-check="weatherOnOff.checked" toggle-class="toggle-energized">Weather</ion-toggle> 
+		        	<ion-toggle ng-model="userSettings.weatherOnOff.checked" ng-check="userSettings.weatherOnOff.checked" toggle-class="toggle-energized">Weather</ion-toggle> 
 
-		            <ion-toggle ng-model="trafficOnOff.checked" ng-check="trafficOnOff.checked" toggle-class="toggle-energized">Traffic</ion-toggle>
+		            <ion-toggle ng-model="userSettings.trafficOnOff.checked" ng-check="userSettings.trafficOnOff.checked" toggle-class="toggle-energized">Traffic</ion-toggle>
 		            
-		            <ion-toggle ng-model="mobileCameraMode" toggle-class="toggle-energized">Mobile Camera</ion-toggle>
+		            <ion-toggle ng-model="userSettings.mobileCameraOnOff" ng-check="userSettings.mobileCameraOnOff.checked" toggle-class="toggle-energized">Mobile Camera</ion-toggle>
 		        </div>
 
 		        <div class="item item-divider">Phone</div>
 	            <div class="list">
-	            	<ion-toggle ng-model="soundOnOff" toggle-class="toggle-energized">Sound</ion-toggle>     
-	            	<ion-toggle ng-model="vibrationOnOff" toggle-class="toggle-energized">Vibration</ion-toggle> 
+	            	<ion-toggle ng-model="userSettings.soundOnOff.checked" ng-checked="userSettings.soundOnOff.checked" toggle-class="toggle-energized">Sound</ion-toggle>     
+	            	<ion-toggle ng-model="userSettings.vibrationOnOff.checked" ng-checked="userSettings.vibrationOnOff.checked" toggle-class="toggle-energized">Vibration</ion-toggle> 
 	        	</div>
 
 	        	<div class="list">
 	            	<div class="item item-divider">Me</div>
-	            	<ion-toggle ng-model="myLocationOnOff" toggle-class="toggle-energized">My Location</ion-toggle>
-	            	<ion-toggle ng-model="needForSpeedMode" toggle-class="toggle-assertive">Need 4 Speed</ion-toggle>
+	            	<ion-toggle ng-model="userSettings.myLocationOnOff.checked" ng-checked="userSettings.myLocationOnOff.checked" toggle-class="toggle-energized">My Location</ion-toggle>
+	            	<ion-toggle ng-model="userSettings.needForSpeedMode.checked" ng-checked="userSettings.needForSpeedMode.checked" toggle-class="toggle-assertive">Need 4 Speed</ion-toggle>
 	        	</div>  	
 				  	
 			</ion-content>
