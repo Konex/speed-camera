@@ -23,9 +23,12 @@ var borderPosition = {
 var geolocationReversion = {};
 (function () {
 
-	function calcLocation(_$scope) {
+	function calcLocation(_$scope, _loDash) {
 		var $scope   = _$scope;
+		var _        = _loDash;
 		var position = $scope.currentPosition;
+
+		if (_.isUndefined(position) && _.isEmpty(position)) return false;
 
 		if(position.longitude <= borderPosition.aus.nsw.eastLng && 
 		   position.longitude >= borderPosition.aus.nsw.westlng &&
@@ -164,17 +167,14 @@ var cameraMarkers = {};
 	}
 
 	function getCameraMarkers() {
-		if($scope.currentPosition && !_.isEmpty($scope.currentPosition)) {
-			if (geolocationReversion.calcLocation($scope)) {
-				$scope.showAlert('I can\'t locate you!', 'Please let me know in settings');	
-			}
-		} else {
+		if($scope.currentPosition && !_.isEmpty($scope.currentPosition) && geolocationReversion.calcLocation($scope, _loDash))
 			$scope.showAlert('I can\'t locate you!', 'Please let me know in settings');
-		}
+		else
+			$scope.showAlert('I can\'t locate you!', 'Please let me know in settings');
 
-		var jsonFileName = dataAccessService.translateParam($scope.userSettings.country, $scope.userSettings.state);
+		var jsonFilePath = dataAccessService.translateParam($scope.userSettings.country, $scope.userSettings.state);
 
-		dataAccessService.getCameras('australia/speed-camera-au.json')
+		dataAccessService.getCameras(jsonFilePath)
 		.then(function(data) {
 			var markers = [];
 			setMarkers(markers, data);
