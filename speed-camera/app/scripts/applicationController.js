@@ -15,7 +15,7 @@ var userPreferences = {};
 		vibrationOnOff:    {text: 'Vibration',      checked: false},
 		myLocationOnOff:   {text: 'My Location',    checked: false},
 		needForSpeedOnOff: {text: 'Need For Speed', checked: false},
-		country: '',
+		country: 'NZ',
 		state: ''
 	};
 

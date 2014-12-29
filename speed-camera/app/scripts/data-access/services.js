@@ -6,12 +6,13 @@ dataAccessServices.factory('DataAccessService', ['$http', '$q', function($http, 
   	var dataAccessService = {};
 
 	dataAccessService.translateParam = function(country, stateShortName) {
-		return country + '/' + stateShortName + '.json';
+        if (! stateShortName === '')
+		return 'assets/cameras/' + country.replace(' ', '-') + '/' + stateShortName + '.json';
 	};
 
-	dataAccessService.getCameras = function(jsonFileName) {
+	dataAccessService.getCameras = function(jsonFilePath) {
 		
-		return $http.get('assets/cameras/' + jsonFileName)
+		return $http.get(jsonFilePath)
     	.then(function (response) {
     		if (typeof response.data == 'object') {
     			return response.data;
