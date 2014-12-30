@@ -13,27 +13,40 @@
             <ion-toggle ng-model="soundOnOff" toggle-class="toggle-energized">Sound</ion-toggle>     
             <ion-toggle ng-model="vibrationOnOff" toggle-class="toggle-energized">Vibration</ion-toggle> 
 
-            <div class="item range range-energized">
-                    Warning Distance: {{userSettings.warningDistance}}
-                    <i class="icon ion-ios-speedometer-outline warning-distance"></i>
+            <ul>
+                <li class="item">
+                    <p>Warning Distance: {{userSettings.warningDistance}}</p>
+                    <div class="range range-energized">
+                    <i class="icon ion-ios-speedometer-outline"></i>
                     <input ng-model="userSettings.warningDistance" type="range" name="volume" min="0" max="100" value="33">
-                    <i class="icon ion-ios-speedometer"></i>   
-                </ul>
-            </div>
+                    <i class="icon ion-ios-speedometer"></i>
+                    </div>        
+                </li>
+            </ul>
+            
+            <ul>
+                <li class="item">
+                    <p>GPS in Second: {{userSettings.gpsIntervalSecond}}</p> 
+                    <div class="range range-energized">
+                        <i class="icon ion-ios-pulse"></i>
+                        <input ng-model="userSettings.gpsIntervalSecond" type="range" name="gpsInSecond" min="0" max="100" value="33">
+                        <i class="icon ion-ios-pulse-strong"></i>
+                    </div>        
+                </li>
+            </ul>
+    
+            <ul>
+                <li class="item">
+                    <p>GPS in Meter: {{userSettings.gpsIntervalMeter}}</p>
+                    <div class="range range-energized">
+                        <i class="icon ion-ios-pulse"></i>
+                        <input ng-model="userSettings.gpsIntervalMeter" type="range" name="gpsInMeter" min="0" max="100" value="33">
+                        <i class="icon ion-ios-pulse-strong"></i>
+                    </div>        
+                </li>
+            </ul>            
 
-            <div class="item range range-energized">
-                GPS in Second: {{userSettings.gpsIntervalSecond}} 
-                <i class="icon ion-ios-pulse gps-in-second"></i>
-                <input ng-model="userSettings.gpsIntervalSecond" type="range" name="gpsInSecond" min="0" max="100" value="33">
-                <i class="icon ion-ios-pulse-strong"></i>
-            </div>
-
-            <div class="item range range-energized">
-                GPS in Meter: {{userSettings.gpsIntervalMeter}}
-                <i class="icon ion-ios-pulse gps-in-meter"></i>
-                <input ng-model="userSettings.gpsIntervalMeter" type="range" name="gpsInMeter" min="0" max="100" value="33">
-                <i class="icon ion-ios-pulse-strong"></i>
-            </div>
+            
         </div>
 
         <div class="list">
