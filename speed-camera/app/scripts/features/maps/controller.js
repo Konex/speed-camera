@@ -5,23 +5,25 @@ var mapsController = angular.module('maps.controller', [
 
 
 
-var borderPosition = {
-	aus: {
-		nsw: {eastLng: 153.638569, westlng: 145.534778, northLat: -28.999174, southLat: -35.802317},
-		act: {eastOuterLng: 149.399259, westOuterlng: 148.76413, northOuterLat: -35.124524, southOuterLat: -35.802317, eastInnerLng: 149.188805, westInnerlng: 148.983841, northInnerLat: -35.206574, southInnerLat: -35.372473},
-		vic: {eastLng: 147.99871,  westlng: 140.964583, northLat: -36.129549, southLat: -39.136408},
-		wa:  {eastLng: 129.00073,  westlng: 112.921528, northLat: -13.740807, southLat: -35.135288},
-		qld: {eastLng: 153.63859,  westlng: 141.000284, northLat: -10.687611, southLat: -28.156202},
-		sa:  {eastLng: 140.964583, westlng: 129.001626, northLat: -25.998617, southLat: -38.061198},
-		nt:  {eastLng: 137.99637,  westlng: 129.00073,  northLat: -11.124241, southLat: -25.998641},
-		tas: {eastLng: 148.481275, westlng: 143.818394, northLat: -39.580129, southLat: -43.663569} 
-	},
-	nz:  {eastLng: 178.576534, westlng: 166.426219, northLat: -34.393383, southLat: -47.289367},
-	fr:  {}
-};
+
 
 var geolocationReversion = {};
 (function () {
+
+	var borderPosition = {
+		aus: {
+			nsw: {eastLng: 153.638569, westlng: 145.534778, northLat: -28.999174, southLat: -35.802317},
+			act: {eastOuterLng: 149.399259, westOuterlng: 148.76413, northOuterLat: -35.124524, southOuterLat: -35.802317, eastInnerLng: 149.188805, westInnerlng: 148.983841, northInnerLat: -35.206574, southInnerLat: -35.372473},
+			vic: {eastLng: 147.99871,  westlng: 140.964583, northLat: -36.129549, southLat: -39.136408},
+			wa:  {eastLng: 129.00073,  westlng: 112.921528, northLat: -13.740807, southLat: -35.135288},
+			qld: {eastLng: 153.63859,  westlng: 141.000284, northLat: -10.687611, southLat: -28.156202},
+			sa:  {eastLng: 140.964583, westlng: 129.001626, northLat: -25.998617, southLat: -38.061198},
+			nt:  {eastLng: 137.99637,  westlng: 129.00073,  northLat: -11.124241, southLat: -25.998641},
+			tas: {eastLng: 148.481275, westlng: 143.818394, northLat: -39.580129, southLat: -43.663569} 
+		},
+		nz:  {eastLng: 178.576534, westlng: 166.426219, northLat: -34.393383, southLat: -47.289367},
+		fr:  {}
+	};
 
 	function calcLocation(_$scope) {
 		var $scope   = _$scope;
@@ -162,6 +164,56 @@ var geolocationReversion = {};
 	geolocationReversion.calcLocation = calcLocation;
 	
 })(); 
+
+
+
+
+
+
+
+var geoPointDistance = {};
+(function () {
+	var rad = function(x) {
+  		return x * Math.PI / 180;
+	};
+
+	// Haversine formula
+	function getDistance(p1, p2) {
+	  	var R     = 6378137; // Earth’s mean radius in meter
+	  	var dLat  = rad(p2.lat() - p1.lat());
+	  	var dLong = rad(p2.lng() - p1.lng());
+	  	var a     = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+	    
+	    Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) *
+	    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+	  	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	  	var d = R * c;
+	  	
+	  	return d; // returns the distance in meter
+	}
+
+	geoPointDistance.getDistance = getDistance;
+})(); 
+
+
+var cameraWarning = {};
+(function () {
+
+	function warnCamera() {
+		var cameraPos = {};
+		var cameraMarker = {};
+
+		var previousDistance, currentDistance, shortestDistance = Number.MAX_VALUE;
+
+
+
+	}
+
+	cameraWarning.warnCamera = warnCamera; 
+})();
+
+
+
 
 
 
@@ -386,9 +438,8 @@ mapsController.controller('MapsCtrl', [
 	'$ionicPopup',
 	'$cordovaGeolocation',
 	'DataAccessService',
-	'_',
 
-	function($scope, $log, $timeout, uiGmapGoogleMapApi, $ionicSideMenuDelegate, $ionicPlatform, $ionicPopup, $cordovaGeolocation, dataAccessService, _) {		
+	function($scope, $log, $timeout, uiGmapGoogleMapApi, $ionicSideMenuDelegate, $ionicPlatform, $ionicPopup, $cordovaGeolocation, dataAccessService) {		
 		ui.init($scope, $log, $ionicSideMenuDelegate, $ionicPopup);	
 
 		uiGmapGoogleMapApi.then(function(maps) {
