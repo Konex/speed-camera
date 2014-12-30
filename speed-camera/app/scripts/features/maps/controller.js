@@ -167,25 +167,13 @@ var geolocationReversion = {};
 
 var cameraMarkers = {};
 (function () {
-	var $scope, dataAccessService, _;
+	var $scope, dataAccessService;
 
-	function init(_$scope, _dataAccessService, _loDash) {
+	function init(_$scope, _dataAccessService) {
 		$scope               = _$scope;
 		dataAccessService    = _dataAccessService;
-		_                    = _loDash;
 		$scope.cameraMarkers = [];
 	}
-
-	// function getCameraMarkersIfNeeded() {
-	// 	dataAccessService.getCameras('australia/speed-camera-au.json')
-	// 	.then(function(data) {
-	// 		var markers = [];
-	// 		setMarkers(markers, data);
-	// 		$scope.cameraMarkers = markers;
-	// 	}, function(error) {
-	// 		// error
-	// 	});
-	// }
 
 	function getCameraMarkersIfNeeded() {
 		if(geolocationReversion.calcLocation($scope) && refetchMarkersNeeded()) {	
@@ -352,14 +340,13 @@ var currentLocation = {};
 
 var ui = {};
 (function (){
-	var $scope, $log, $ionicSideMenuDelegate, $ionicPopup, _;
+	var $scope, $log, $ionicSideMenuDelegate, $ionicPopup;
 
-	function init(_$scope, _$log, _$ionicSideMenuDelegate, _$ionicPopup, _loDash) {
+	function init(_$scope, _$log, _$ionicSideMenuDelegate, _$ionicPopup) {
 		$scope                 = _$scope;
 		$log                   = _$log;
 		$ionicSideMenuDelegate = _$ionicSideMenuDelegate;
 		$ionicPopup            = _$ionicPopup;
-		_                      = _loDash;
 		
 		setDefaults();
 		wireHandlers();
@@ -428,10 +415,10 @@ mapsController.controller('MapsCtrl', [
 	    currentLocation.watchCurrentLocation();
 
 	    currentLocationMarker.buildCurrentLocationMarker($scope);
-	    cameraMarkers.init($scope, dataAccessService, _);
+	    cameraMarkers.init($scope, dataAccessService);
 		cameraMarkers.getCameraMarkersIfNeeded();
 
-		ui.init($scope, $log, $ionicSideMenuDelegate, $ionicPopup, _);
+		ui.init($scope, $log, $ionicSideMenuDelegate, $ionicPopup);
 	}
 ]);
 
