@@ -28,7 +28,7 @@ var geolocationReversion = {};
 		var position = $scope.currentPosition;
 
 		if (_.isUndefined(position) && _.isEmpty(position)) return false;
-
+		
 		if(position.longitude <= borderPosition.aus.nsw.eastLng && 
 		   position.longitude >= borderPosition.aus.nsw.westlng &&
 		   position.latitude <= borderPosition.aus.nsw.northLat &&
@@ -155,10 +155,12 @@ var geolocationReversion = {};
 			return true;
 		}
 
+		$scope.showAlert('Oops!', 'Sorry, I can\'t find any cameras');
 		return false;
 	}
 
 	geolocationReversion.calcLocation = calcLocation;
+	
 })(); 
 
 
@@ -233,24 +235,8 @@ var cameraMarkers = {};
 		return description;
 	}
 
-	cameraMarkers.init = init;
-	cameraMarkers.getCameraMarkersIfNeeded = getCameraMarkersIfNeeded;
-
-})();
-
-
-
-
-
-var currentLocationMarker = {};
-(function () {
-
-	function buildCurrentLocationMarker($scope) {
-
+	function buildCurrentLocationMarker() {
 		if (!_.isUndefined($scope.currentPosition) && !_.isEmpty($scope.currentPosition)) {
-			// if (!_.isUndefined($scope.currentLocationMarker) && !_.isEmpty($scope.currentLocationMarker))
-			// 	$scope.currentLocationMarker.setMap(null); 
-
 			$scope.currentLocationMarker = {
 				id: 0,
 				icon: 'https://chart.googleapis.com/chart?chst=d_map_spin&chld=1|0|FFFF42|11|b|Me',
@@ -259,7 +245,10 @@ var currentLocationMarker = {};
 		}
 	}
 
-	currentLocationMarker.buildCurrentLocationMarker = buildCurrentLocationMarker;
+	cameraMarkers.init = init;
+	cameraMarkers.getCameraMarkersIfNeeded = getCameraMarkersIfNeeded;
+	cameraMarkers.buildCurrentLocationMarker = buildCurrentLocationMarker;
+
 })();
 
 
@@ -313,7 +302,7 @@ var currentLocation = {};
 		      		$scope.currentPosition.latitude   = position.coords.latitude
 			      	$scope.currentPosition.longitude  = position.coords.longitude
 
-			      	currentLocationMarker.buildCurrentLocationMarker($scope);
+			      	cameraMarkers.buildCurrentLocationMarker();
 			      	cameraMarkers.getCameraMarkersIfNeeded();
 			  	} 
 		  	);
@@ -350,7 +339,6 @@ var ui = {};
 		
 		setDefaults();
 		wireHandlers();
-		showNotice();
 	}
 
 	function setDefaults() {
@@ -371,11 +359,6 @@ var ui = {};
 
 	function wireHandlers() {
 		
-	}
-
-	function showNotice() {
-		if (_.isUndefined($scope.cameraMarkers) || _.isEmpty($scope.cameraMarkers))
-			$scope.showAlert('I can\'t load cameras!', 'Maybe I don\'t have it yet around your region. Please let me know in settings');
 	}
 
 	ui.init = init;
@@ -406,19 +389,17 @@ mapsController.controller('MapsCtrl', [
 	'_',
 
 	function($scope, $log, $timeout, uiGmapGoogleMapApi, $ionicSideMenuDelegate, $ionicPlatform, $ionicPopup, $cordovaGeolocation, dataAccessService, _) {		
+		ui.init($scope, $log, $ionicSideMenuDelegate, $ionicPopup);	
+
 		uiGmapGoogleMapApi.then(function(maps) {
 			$scope.map = { center: { latitude: -36.849562, longitude: 174.764876 }, zoom: 9 };
-	    }); 
+	    });
+
+	    cameraMarkers.init($scope, dataAccessService);
 
 	    currentLocation.init($scope, $cordovaGeolocation, $ionicPlatform);
 		currentLocation.getCurrentLocation();
 	    currentLocation.watchCurrentLocation();
-
-	    currentLocationMarker.buildCurrentLocationMarker($scope);
-	    cameraMarkers.init($scope, dataAccessService);
-		cameraMarkers.getCameraMarkersIfNeeded();
-
-		ui.init($scope, $log, $ionicSideMenuDelegate, $ionicPopup);
 	}
 ]);
 
