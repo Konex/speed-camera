@@ -11,12 +11,18 @@ var userPreferences = {};
 		weatherOnOff:      {text: 'Weather',        checked: false},  
 		trafficOnOff:      {text: 'Traffic',        checked: false},
 		mobileCameraOnOff: {text: 'Mobile Camera',  checked: false}, 		
+		
 		soundOnOff:        {text: 'Sound',          checked: false},
 		vibrationOnOff:    {text: 'Vibration',      checked: false},
+		warningDistance:   20, 
+		gpsIntervalSecond: 7,
+		gpsIntervalMeter:  10,
+
 		myLocationOnOff:   {text: 'My Location',    checked: false},
-		needForSpeedOnOff: {text: 'Need For Speed', checked: false},
+		needForSpeedOnOff: {text: 'Need For Speed', checked: true},
 		country: '',
 		state: '',
+		
 		previousCountry: '',
 		previousState: ''
 	};
@@ -36,10 +42,10 @@ var userPreferences = {};
 		
 	}
 
-
 	userPreferences.init = init;
 	userPreferences.getUserPreferences = getUserPreferences;
 	userPreferences.setPublicMethods = setPublicMethods; 
+
 })();
 
 

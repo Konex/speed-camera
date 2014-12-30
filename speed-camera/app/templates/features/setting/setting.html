@@ -14,31 +14,32 @@
             <ion-toggle ng-model="vibrationOnOff" toggle-class="toggle-energized">Vibration</ion-toggle> 
 
             <div class="item range range-energized">
-                Warning Distance
-                <i class="icon ion-ios-speedometer-outline warning-distance"></i>
-                <input type="range" name="volume" min="0" max="100" value="33">
-                <i class="icon ion-ios-speedometer"></i>
+                    Warning Distance: {{userSettings.warningDistance}}
+                    <i class="icon ion-ios-speedometer-outline warning-distance"></i>
+                    <input ng-model="userSettings.warningDistance" type="range" name="volume" min="0" max="100" value="33">
+                    <i class="icon ion-ios-speedometer"></i>   
+                </ul>
             </div>
 
             <div class="item range range-energized">
-                GPS in Second 
+                GPS in Second: {{userSettings.gpsIntervalSecond}} 
                 <i class="icon ion-ios-pulse gps-in-second"></i>
-                <input type="range" name="gpsInSecond" min="0" max="100" value="33">
+                <input ng-model="userSettings.gpsIntervalSecond" type="range" name="gpsInSecond" min="0" max="100" value="33">
                 <i class="icon ion-ios-pulse-strong"></i>
             </div>
 
             <div class="item range range-energized">
-                GPS in Meter
+                GPS in Meter: {{userSettings.gpsIntervalMeter}}
                 <i class="icon ion-ios-pulse gps-in-meter"></i>
-                <input type="range" name="gpsInMeter" min="0" max="100" value="33">
+                <input ng-model="userSettings.gpsIntervalMeter" type="range" name="gpsInMeter" min="0" max="100" value="33">
                 <i class="icon ion-ios-pulse-strong"></i>
             </div>
         </div>
 
         <div class="list">
             <div class="item item-divider">Me</div>
-            <ion-toggle ng-model="myLocationOnOff" toggle-class="toggle-energized">Pin My Location</ion-toggle>
-            <ion-toggle ng-model="needForSpeedMode" toggle-class="toggle-assertive"><i class="icon ion-jet assertive"></i> Need 4 Speed</ion-toggle>
+            <ion-toggle ng-model="userSettings.myLocationOnOff.checked" toggle-class="toggle-energized">Pin My Location</ion-toggle>
+            <ion-toggle ng-model="userSettings.needForSpeedOnOff.checked" toggle-class="toggle-assertive"><i class="icon ion-jet assertive"></i> Need 4 Speed</ion-toggle>
         
             <label class="item item-input item-select">
                 <div class="input-label">
