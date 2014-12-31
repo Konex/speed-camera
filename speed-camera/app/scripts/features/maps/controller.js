@@ -245,7 +245,10 @@ var cameraMarkers = {};
 	}
 
 	function refetchMarkersNeeded() {
-		return !($scope.userSettings.previousCountry == $scope.userSettings.country && $scope.userSettings.previousState == $scope.userSettings.state);
+		return !($scope.userSettings.previousCountry == $scope.userSettings.country && 
+				 $scope.userSettings.previousState   == $scope.userSettings.state   && 
+				 !_.isUndefined($scope.cameraMarkers)                               && 
+				 !_.isEmpty($scope.cameraMarkers))
 	}
 
 	function setMarkers(markers, data) {	
