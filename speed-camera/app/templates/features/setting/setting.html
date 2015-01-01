@@ -1,4 +1,4 @@
-<ion-view cache-view="true" view-title="Settings">
+<ion-view cache-view="true" title="Settings">
     <ion-content padding="true">
 
         <div class="item item-divider">Maps</div>
@@ -14,7 +14,7 @@
         <div class="item item-divider">Phone</div>
             <div class="list">
                 <ion-toggle ng-model="userSettings.soundOnOff.checked" ng-checked="userSettings.soundOnOff.checked" toggle-class="toggle-energized">Sound</ion-toggle>     
-                
+
                 <ion-toggle ng-model="userSettings.vibrationOnOff.checked" ng-checked="userSettings.vibrationOnOff.checked" toggle-class="toggle-energized">Vibration</ion-toggle> 
             </div>
 
@@ -63,23 +63,13 @@
                 <div class="input-label">
                     Country
                 </div>
-                <select ng-model="userSettings.country" ng-options="country.name for country in countryOptions">
-                    
-                </select>
+                <select ng-model="userSettings.country" ng-options="country.name for country in countryOptions"></select>
             </label>
             <label class="item item-input item-select">
                 <div class="input-label">
                     State
                 </div>
-                <select>
-                    <option>Australian Capital Territory</option>
-                    <option selected>New South Wales</option>
-                    <option>Northern Territory</option>
-                    <option>Queensland</option>
-                    <option>Western Australia</option>
-                    <option>Tasmania</option>
-                    <option>Victoria</option>
-                </select>
+                <select ng-model="userSettings.state" ng-options="state.name for state in stateOptions" disabled="stateOptions.name"></select>
             </label>
         </div>
         
