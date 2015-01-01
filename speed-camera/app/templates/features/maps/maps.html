@@ -36,25 +36,17 @@
 			</header>
 			
 			<ion-content has-header="true">
-				
-				<div class="item item-divider">Maps</div>
-		        <div class="list">
-		        	<ion-toggle ng-model="userSettings.weatherOnOff.checked" ng-check="userSettings.weatherOnOff.checked" toggle-class="toggle-energized">Weather</ion-toggle> 
-
+				<div class="list">
+					<div class="item item-divider">Maps</div>
+		        	<ion-toggle ng-model="userSettings.weatherOnOff.checked" ng-check="userSettings.weatherOnOff.checked" toggle-class="toggle-energized">Weather</ion-toggle>
 		            <ion-toggle ng-model="userSettings.trafficOnOff.checked" ng-check="userSettings.trafficOnOff.checked" toggle-class="toggle-energized">Traffic</ion-toggle>
-		            
 		            <ion-toggle ng-model="userSettings.mobileCameraOnOff" ng-check="userSettings.mobileCameraOnOff.checked" toggle-class="toggle-energized">Mobile Camera</ion-toggle>
-		        </div>
 
-		        <div class="item item-divider">Phone</div>
-	            <div class="list">
+		        	<div class="item item-divider">Phone</div>
 	            	<ion-toggle ng-model="userSettings.soundOnOff.checked" ng-checked="userSettings.soundOnOff.checked" toggle-class="toggle-energized">Sound</ion-toggle>     
 	            	<ion-toggle ng-model="userSettings.vibrationOnOff.checked" ng-checked="userSettings.vibrationOnOff.checked" toggle-class="toggle-energized">Vibration</ion-toggle> 
-	        	</div>
-
-	        	<div class="list">
+	        	
 	            	<div class="item item-divider">Me</div>
-	            	<ion-toggle ng-model="userSettings.myLocationOnOff.checked" toggle-class="toggle-energized">Pin My Location</ion-toggle>
 	            	<ion-toggle ng-model="userSettings.needForSpeedOnOff.checked" toggle-class="toggle-assertive"><i class="icon ion-jet assertive"></i> Need 4 Speed</ion-toggle>
 	        	</div>  	
 				  	
