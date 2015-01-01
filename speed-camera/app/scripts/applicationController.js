@@ -34,18 +34,8 @@ var userPreferences = {};
 		$scope.userSettings = userSettings;
 	}
 
-	function getUserPreferences() {
-
-	}
-
-	function setPublicMethods() {
-		
-	}
-
 	userPreferences.init = init;
-	userPreferences.getUserPreferences = getUserPreferences;
-	userPreferences.setPublicMethods = setPublicMethods; 
-
+	
 })();
 
 
@@ -83,6 +73,47 @@ var currentUser = {};
 
 
 
+
+
+
+
+
+
+var appUi = {};
+(function() {
+	var $scope;
+
+	function init(_$scope) {
+		$scope = _$scope;
+		setDefaults();
+	}
+
+	function setDefaults() {
+		// For some reason ion-view does not cache child scope so have to store map variables here.
+		$scope.currentPosition = {};
+		$scope.cameraMarkers   = [];
+
+		$scope.countryOptions = [
+			{name: 'Australia',   value: 'Australia'},
+			{name: 'New Zealand', value: 'New Zealand'},
+			{name: 'France',      value: 'France'}
+		];
+
+		$scope.stateOptions = [
+
+		];
+	}
+
+
+	appUi.init = init;
+
+})();
+
+
+
+
+
+
 applicationController.controller('ApplicationController', [
 	'$scope',
 	'USER_ROLES',
@@ -93,5 +124,6 @@ applicationController.controller('ApplicationController', [
 		//currentUser.init($scope, USER_ROLES, AuthService);
 
 		userPreferences.init($scope);
+		appUi.init($scope);
 	}
 ]);

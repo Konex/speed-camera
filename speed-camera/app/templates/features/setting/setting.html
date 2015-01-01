@@ -1,47 +1,52 @@
-<ion-view title="Settings">
+<ion-view cache-view="true" view-title="Settings">
     <ion-content padding="true">
 
         <div class="item item-divider">Maps</div>
-        <div class="list">    
-            <ion-toggle ng-model="trafficMode" toggle-class="toggle-energized">Traffic</ion-toggle>
-            <ion-toggle ng-model="mobileCameraMode" toggle-class="toggle-energized">Mobile Camera</ion-toggle>
+        <div class="list">
+            <ion-toggle ng-model="userSettings.weatherOnOff.checked" ng-check="userSettings.weatherOnOff.checked" toggle-class="toggle-energized">Weather</ion-toggle>    
+            
+            <ion-toggle ng-model="userSettings.trafficOnOff.checked" ng-check="userSettings.trafficOnOff.checked" toggle-class="toggle-energized">Traffic</ion-toggle>
+                    
+            <ion-toggle ng-model="userSettings.mobileCameraOnOff" ng-check="userSettings.mobileCameraOnOff.checked" toggle-class="toggle-energized">Mobile Camera</ion-toggle>
 
         </div>
 
         <div class="item item-divider">Phone</div>
             <div class="list">
-            <ion-toggle ng-model="soundOnOff" toggle-class="toggle-energized">Sound</ion-toggle>     
-            <ion-toggle ng-model="vibrationOnOff" toggle-class="toggle-energized">Vibration</ion-toggle> 
+                <ion-toggle ng-model="userSettings.soundOnOff.checked" ng-checked="userSettings.soundOnOff.checked" toggle-class="toggle-energized">Sound</ion-toggle>     
+                
+                <ion-toggle ng-model="userSettings.vibrationOnOff.checked" ng-checked="userSettings.vibrationOnOff.checked" toggle-class="toggle-energized">Vibration</ion-toggle> 
+            </div>
 
             <ul>
                 <li class="item">
                     <p>Warning Distance: {{userSettings.warningDistance}}</p>
                     <div class="range range-energized">
-                    <i class="icon ion-ios-speedometer-outline"></i>
+                    <i class="icon ion-ios-flag-outline"></i>
                     <input ng-model="userSettings.warningDistance" type="range" name="volume" min="0" max="100" value="33">
-                    <i class="icon ion-ios-speedometer"></i>
+                    <i class="icon ion-ios-flag"></i>
                     </div>        
                 </li>
             </ul>
             
             <ul>
                 <li class="item">
-                    <p>GPS in Second: {{userSettings.gpsIntervalSecond}}</p> 
+                    <p>GPS Interval in Second: {{userSettings.gpsIntervalSecond}}</p> 
                     <div class="range range-energized">
-                        <i class="icon ion-ios-pulse"></i>
+                        <i class="icon ion-ios-clock-outline"></i>
                         <input ng-model="userSettings.gpsIntervalSecond" type="range" name="gpsInSecond" min="0" max="100" value="33">
-                        <i class="icon ion-ios-pulse-strong"></i>
+                        <i class="icon ion-ios-clock"></i>
                     </div>        
                 </li>
             </ul>
     
             <ul>
                 <li class="item">
-                    <p>GPS in Meter: {{userSettings.gpsIntervalMeter}}</p>
+                    <p>GPS Interval in Meter: {{userSettings.gpsIntervalMeter}}</p>
                     <div class="range range-energized">
-                        <i class="icon ion-ios-pulse"></i>
+                        <i class="icon ion-ios-paw-outline"></i>
                         <input ng-model="userSettings.gpsIntervalMeter" type="range" name="gpsInMeter" min="0" max="100" value="33">
-                        <i class="icon ion-ios-pulse-strong"></i>
+                        <i class="icon ion-ios-paw"></i>
                     </div>        
                 </li>
             </ul>            
@@ -58,11 +63,8 @@
                 <div class="input-label">
                     Country
                 </div>
-                <select>
-                    <option>Australia</option>
-                    <option selected>New Zealand</option>
-                    <option>France</option>
-                    <option>Hong Kong (China)</option>
+                <select ng-model="userSettings.country" ng-options="country.name for country in countryOptions">
+                    
                 </select>
             </label>
             <label class="item item-input item-select">

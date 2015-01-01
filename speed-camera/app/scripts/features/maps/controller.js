@@ -27,7 +27,7 @@ var geolocationReversion = {};
 
 	function calcLocation(_$scope) {
 		var $scope   = _$scope;
-		var position = $scope.currentPosition;
+		var position = $scope.$parent.currentPosition;
 
 		if (_.isUndefined(position) && _.isEmpty(position)) return false;
 		
@@ -157,7 +157,6 @@ var geolocationReversion = {};
 			return true;
 		}
 
-		$scope.showAlert('Oops!', 'Sorry, I can\'t find any cameras');
 		return false;
 	}
 
@@ -219,6 +218,84 @@ var cameraWarning = {};
 
 
 
+
+
+
+
+
+
+
+var currentLocation = {};
+(function (){
+
+	var $scope, $cordovaGeolocation, $ionicPlatform, watch;
+
+	function init(_$scope, _$cordovaGeolocation, _$ionicPlatform) {
+		$scope              = _$scope;
+		$cordovaGeolocation = _$cordovaGeolocation;
+		$ionicPlatform      = _$ionicPlatform;
+	}
+
+	function getCurrentLocation() {
+		$ionicPlatform.ready(function() {
+			var posOptions = {timeout: 10000, enableHighAccuracy: false};
+
+		  	$cordovaGeolocation
+			    .getCurrentPosition(posOptions)
+			    .then(function (position) {
+			      $scope.$parent.currentPosition.latitude   = position.coords.latitude
+			      $scope.$parent.currentPosition.longitude  = position.coords.longitude
+			    }, function(err) {
+		      		// error
+		    	}
+	    	);
+		});
+	}
+
+	function watchCurrentLocation() {
+		$ionicPlatform.ready(function() {
+			var watchOptions = {
+	    		frequency :         100,
+	    		timeout :           3000,
+	    		enableHighAccuracy: false // may cause errors if true
+	  		};
+
+		  	watch = $cordovaGeolocation.watchPosition(watchOptions);
+		  	watch.then(
+		    	null,
+			    function(err) {
+			      // error
+			    },
+			    function(position) {
+		      		$scope.$parent.currentPosition.latitude   = position.coords.latitude
+			      	$scope.$parent.currentPosition.longitude  = position.coords.longitude
+
+			      	cameraMarkers.buildCurrentLocationMarker();
+			      	cameraMarkers.getCameraMarkersIfNeeded();
+			  	} 
+		  	);
+		});
+	}
+
+	function clearWatch() {
+		$ionicPlatform.ready(function() {
+			if (!_.isUndefined(watch))
+				watch.clearWatch();
+		});
+	}
+
+	currentLocation.init = init;
+	currentLocation.getCurrentLocation = getCurrentLocation;
+	currentLocation.watchCurrentLocation = watchCurrentLocation; 
+	currentLocation.clearWatch = clearWatch;
+})();
+
+
+
+
+
+
+
 var cameraMarkers = {};
 (function () {
 	var $scope, dataAccessService;
@@ -226,7 +303,6 @@ var cameraMarkers = {};
 	function init(_$scope, _dataAccessService) {
 		$scope               = _$scope;
 		dataAccessService    = _dataAccessService;
-		$scope.cameraMarkers = [];
 	}
 
 	function getCameraMarkersIfNeeded() {
@@ -235,9 +311,7 @@ var cameraMarkers = {};
 
 			dataAccessService.getCameras(jsonFilePath)
 			.then(function(data) {
-				var markers = [];
-				setMarkers(markers, data);
-				$scope.cameraMarkers = markers;
+				setMarkers($scope.$parent.cameraMarkers, data);
 			}, function(error) {
 				// error
 			});
@@ -247,8 +321,8 @@ var cameraMarkers = {};
 	function refetchMarkersNeeded() {
 		return !($scope.userSettings.previousCountry == $scope.userSettings.country && 
 				 $scope.userSettings.previousState   == $scope.userSettings.state   && 
-				 !_.isUndefined($scope.cameraMarkers)                               && 
-				 !_.isEmpty($scope.cameraMarkers))
+				 !_.isUndefined($scope.$parent.cameraMarkers)                               && 
+				 !_.isEmpty($scope.$parent.cameraMarkers))
 	}
 
 	function setMarkers(markers, data) {	
@@ -291,11 +365,11 @@ var cameraMarkers = {};
 	}
 
 	function buildCurrentLocationMarker() {
-		if (!_.isUndefined($scope.currentPosition) && !_.isEmpty($scope.currentPosition)) {
+		if (!_.isUndefined($scope.$parent.currentPosition) && !_.isEmpty($scope.$parent.currentPosition)) {
 			$scope.currentLocationMarker = {
 				id: 0,
 				icon: 'https://chart.googleapis.com/chart?chst=d_map_spin&chld=1|0|FFFF42|11|b|Me',
-				coords: {latitude: $scope.currentPosition.latitude, longitude: $scope.currentPosition.longitude}
+				coords: {latitude: $scope.$parent.currentPosition.latitude, longitude: $scope.$parent.currentPosition.longitude}
 			};
 		}
 	}
@@ -304,77 +378,6 @@ var cameraMarkers = {};
 	cameraMarkers.getCameraMarkersIfNeeded = getCameraMarkersIfNeeded;
 	cameraMarkers.buildCurrentLocationMarker = buildCurrentLocationMarker;
 
-})();
-
-
-
-
-
-
-var currentLocation = {};
-(function (){
-
-	var $scope, $cordovaGeolocation, $ionicPlatform, watch;
-
-	function init(_$scope, _$cordovaGeolocation, _$ionicPlatform) {
-		$scope              = _$scope;
-		$cordovaGeolocation = _$cordovaGeolocation;
-		$ionicPlatform      = _$ionicPlatform;
-		$scope.currentPosition = {};
-	}
-
-	function getCurrentLocation() {
-		$ionicPlatform.ready(function() {
-			var posOptions = {timeout: 10000, enableHighAccuracy: false};
-
-		  	$cordovaGeolocation
-			    .getCurrentPosition(posOptions)
-			    .then(function (position) {
-			      $scope.currentPosition.latitude   = position.coords.latitude
-			      $scope.currentPosition.longitude  = position.coords.longitude
-			    }, function(err) {
-		      		// error
-		    	}
-	    	);
-		});
-	}
-
-	function watchCurrentLocation() {
-		$ionicPlatform.ready(function() {
-			var watchOptions = {
-	    		frequency :         100,
-	    		timeout :           3000,
-	    		enableHighAccuracy: false // may cause errors if true
-	  		};
-
-		  	watch = $cordovaGeolocation.watchPosition(watchOptions);
-		  	watch.then(
-		    	null,
-			    function(err) {
-			      // error
-			    },
-			    function(position) {
-		      		$scope.currentPosition.latitude   = position.coords.latitude
-			      	$scope.currentPosition.longitude  = position.coords.longitude
-
-			      	cameraMarkers.buildCurrentLocationMarker();
-			      	cameraMarkers.getCameraMarkersIfNeeded();
-			  	} 
-		  	);
-		});
-	}
-
-	function clearWatch() {
-		$ionicPlatform.ready(function() {
-			if (!_.isUndefined(watch))
-				watch.clearWatch();
-		});
-	}
-
-	currentLocation.init = init;
-	currentLocation.getCurrentLocation = getCurrentLocation;
-	currentLocation.watchCurrentLocation = watchCurrentLocation; 
-	currentLocation.clearWatch = clearWatch;
 })();
 
 
@@ -454,6 +457,9 @@ mapsController.controller('MapsCtrl', [
 	    currentLocation.init($scope, $cordovaGeolocation, $ionicPlatform);
 		currentLocation.getCurrentLocation();
 	    currentLocation.watchCurrentLocation();
+
+	    cameraMarkers.buildCurrentLocationMarker();
+      	cameraMarkers.getCameraMarkersIfNeeded();
 	}
 ]);
 
