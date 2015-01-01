@@ -11,7 +11,7 @@ var mars = angular.module('Mars', [
     'signin', 
     'maps',
     'pulse',
-    'setting'
+    'settings'
 ]);
 
 
