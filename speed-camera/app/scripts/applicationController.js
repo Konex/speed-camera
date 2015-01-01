@@ -95,12 +95,32 @@ var appUi = {};
 
 		$scope.countryOptions = [
 			{name: 'Australia',   value: 'Australia'},
-			{name: 'New Zealand', value: 'New Zealand'},
+			{name: 'New Zealand', value: 'NewZealand'},
 			{name: 'France',      value: 'France'}
 		];
 
-		$scope.stateOptions = [
+		$scope.stateOptionsByCountry = {
+			Australia: [
+				{name: 'Australian Capital Territory', value: 'Australian Capital Territory'},
+                {name: 'New South Wales',              value: 'New South Wales'},
+                {name: 'Northern Territory',           value: 'Northern Territory'},
+                {name: 'Queensland',                   value: 'Queensland'},
+                {name: 'Western Australia',            value: 'Western Australia'},
+                {name: 'Tasmania',                     value: 'Tasmania'},
+                {name: 'Victoria',                     value: 'Victoria'}
+			],
 
+			NewZealand: [
+				{name: 'New Zealand', value: 'New Zealand'}
+			],
+
+			France: [
+				{name: 'France', value: 'France'}
+			]
+		};
+
+		$scope.stateOptions = [
+			{name: '', value: ''}
 		];
 	}
 
