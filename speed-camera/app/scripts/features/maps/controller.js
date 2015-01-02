@@ -306,7 +306,7 @@ var currentLocation = {};
 	function watchCurrentLocation() {
 		$ionicPlatform.ready(function() {
 			var watchOptions = {
-	    		frequency :         100,
+	    		frequency :         $scope.$parent.userSettings.gpsIntervalSecond * 1000,
 	    		timeout :           3000,
 	    		enableHighAccuracy: false // may cause errors if true
 	  		};
