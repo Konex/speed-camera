@@ -14,6 +14,7 @@ var userPreferences = {};
 		
 		soundOnOff:        {text: 'Sound',          checked: false},
 		vibrationOnOff:    {text: 'Vibration',      checked: false},
+		toastOnOff:        {text: 'Toast',          checked: false},
 		warningDistance:   20, 
 		gpsIntervalSecond: 7,
 		gpsIntervalMeter:  10,
@@ -90,8 +91,9 @@ var appUi = {};
 
 	function setDefaults() {
 		// For some reason ion-view does not cache child scope so have to store map variables here.
-		$scope.currentPosition = {};
-		$scope.cameraMarkers   = [];
+		$scope.previousPosition = {};
+		$scope.currentPosition  = {};
+		$scope.cameraMarkers    = [];
 
 		$scope.countryOptions = [
 			{name: 'Australia',   value: 'Australia'},

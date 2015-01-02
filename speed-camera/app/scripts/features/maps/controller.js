@@ -179,11 +179,11 @@ var geoPointDistance = {};
 	// Haversine formula
 	function getDistance(p1, p2) {
 	  	var R     = 6378137; // Earth’s mean radius in meter
-	  	var dLat  = rad(p2.lat() - p1.lat());
-	  	var dLong = rad(p2.lng() - p1.lng());
+	  	var dLat  = rad(p2.latitude - p1.latitude);
+	  	var dLong = rad(p2.longitude - p1.longitude);
 	  	var a     = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
 	    
-	    Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) *
+	    Math.cos(rad(p1.latitude)) * Math.cos(rad(p2.latitude)) *
 	    Math.sin(dLong / 2) * Math.sin(dLong / 2);
 	  	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 	  	var d = R * c;
@@ -198,15 +198,65 @@ var geoPointDistance = {};
 var cameraWarning = {};
 (function () {
 
-	function warnCamera() {
-		var cameraPos = {};
-		var cameraMarker = {};
+	function warnCamera(_$scope, _$cordovaVibration, _$cordovaToast) {
+		var $scope            = _$scope;
+		var $cordovaVibration = _$cordovaVibration;
+		var $cordovaDialogs   = _$cordovaDialogs;
+		var $cordovaToast     = _$cordovaToast;
 
-		var previousDistance, currentDistance, shortestDistance = Number.MAX_VALUE;
+		if (_.isEmpty($scope.cameraMarkers) || _.isEmpty($scope.previousPosition) || _.isEmpty($scope.currentPosition)) 
+			return;
+		
+		var nearestCamera = calcNearestCamera($scope);
+		
+		if (_.isUndefined(nearestCamera) || _.isEmpty(nearestCamera)) 
+			return;
 
-
-
+		giveWarning($scope, $cordovaVibration, $cordovaDialogs, $cordovaToast);
 	}
+
+	function calcNearestCamera(_$scope) {
+		var $scope = _$scope;
+		var nearestCameraMarker, previousDistance, currentDistance, distanceToNearestCamera = Number.MAX_VALUE;
+
+		_.each($scope.cameraMarkers, function(cameraMarker) {
+			var markerPosition = {latitude: cameraMarker.latitude, longitude: cameraMarker.longitude};
+			currentDistance    = geoPointDistance.getDistance($scope.currentPosition, markerPosition);
+			previousDistance   = geoPointDistance.getDistance($scope.previousPosition, markerPosition);
+
+			if (currentDistance <= previousDistance && currentDistance < distanceToNearestCamera) {
+				distanceToNearestCamera = currentDistance;
+				nearestCameraMarker = angular.copy(cameraMarker);
+			}
+
+			if (distanceToNearestCamera > $scope.userSettings.warningDistance)
+				nearestCameraMarker = null;
+
+			return nearestCameraMarker;
+		});
+	}
+
+	function giveWarning(_$scope, _$cordovaVibration, _$cordovaDialogs, _$cordovaToast) {
+		var $scope = _$scope;
+		var $cordovaVibration = _$cordovaVibration;
+		var $cordovaDialogs = _$cordovaDialogs;
+		var $cordovaToast = _$cordovaToast;
+
+		if ($scope.userSettings.vibrationOnOff.checked)
+			$cordovaVibration.vibrate(100);
+
+		if ($scope.userSettings.soundOnOff.checked)
+			$cordovaDialogs.beep(1);
+
+		if ($scope.userSettings.toastOnOff.checked)
+			$cordovaToast.showShortTop('Approaching Speed Camera!')
+				.then(function(success) {
+			    // success
+		  		}, function (error) {
+			    // error
+		  		});
+	}
+
 
 	cameraWarning.warnCamera = warnCamera; 
 })();
@@ -243,8 +293,9 @@ var currentLocation = {};
 		  	$cordovaGeolocation
 			    .getCurrentPosition(posOptions)
 			    .then(function (position) {
-			      $scope.$parent.currentPosition.latitude   = position.coords.latitude
-			      $scope.$parent.currentPosition.longitude  = position.coords.longitude
+			      $scope.$parent.currentPosition.latitude    = position.coords.latitude;
+			      $scope.$parent.currentPosition.longitude   = position.coords.longitude;
+			      $scope.$parent.previousPosition = angular.copy($scope.$parent.currentPosition);
 			    }, function(err) {
 		      		// error
 		    	}
@@ -267,8 +318,9 @@ var currentLocation = {};
 			      // error
 			    },
 			    function(position) {
-		      		$scope.$parent.currentPosition.latitude   = position.coords.latitude
-			      	$scope.$parent.currentPosition.longitude  = position.coords.longitude
+			    	$scope.$parent.previousPosition           = angular.copy($scope.$parent.currentPosition);
+		      		$scope.$parent.currentPosition.latitude   = position.coords.latitude;
+			      	$scope.$parent.currentPosition.longitude  = position.coords.longitude;
 
 			      	cameraMarkers.buildCurrentLocationMarker();
 			      	cameraMarkers.getCameraMarkersIfNeeded();
@@ -321,7 +373,7 @@ var cameraMarkers = {};
 	function refetchMarkersNeeded() {
 		return !($scope.userSettings.previousCountry == $scope.userSettings.country && 
 				 $scope.userSettings.previousState   == $scope.userSettings.state   && 
-				 !_.isUndefined($scope.$parent.cameraMarkers)                               && 
+				 !_.isUndefined($scope.$parent.cameraMarkers)                       && 
 				 !_.isEmpty($scope.$parent.cameraMarkers))
 	}
 
@@ -443,9 +495,24 @@ mapsController.controller('MapsCtrl', [
 	'$ionicPlatform',
 	'$ionicPopup',
 	'$cordovaGeolocation',
+	'$cordovaVibration',
+	'$cordovaDialogs',
+	'$cordovaToast',
 	'DataAccessService',
 
-	function($scope, $log, $timeout, uiGmapGoogleMapApi, $ionicSideMenuDelegate, $ionicPlatform, $ionicPopup, $cordovaGeolocation, dataAccessService) {		
+	function($scope, 
+			 $log, 
+			 $timeout, 
+			 uiGmapGoogleMapApi, 
+			 $ionicSideMenuDelegate, 
+			 $ionicPlatform, 
+			 $ionicPopup, 
+			 $cordovaGeolocation, 
+			 $cordovaVibration,
+			 $cordovaDialogs,
+			 $cordovaToast, 
+			 dataAccessService) {
+
 		ui.init($scope, $log, $ionicSideMenuDelegate, $ionicPopup);	
 
 		uiGmapGoogleMapApi.then(function(maps) {
