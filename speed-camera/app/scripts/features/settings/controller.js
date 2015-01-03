@@ -4,7 +4,7 @@ var settingsController = angular.module('settings.controller', [
 ]);
 
 
-var ui = {};
+var settingsUi = {};
 (function () {
 	var $scope;
 
@@ -27,7 +27,7 @@ var ui = {};
 		$scope.$parent.stateOptions = $scope.$parent.stateOptionsByCountry[$scope.$parent.userSettings.country.value];
 	}
 
-	ui.init = init;
+	settingsUi.init = init;
 
 })();
 
@@ -40,6 +40,6 @@ settingsController.controller('SettingsCtrl', [
 	function($scope,
 			 $cordovaToast) {
 
-		ui.init($scope);
+		settingsUi.init($scope);
 	}
 ]);

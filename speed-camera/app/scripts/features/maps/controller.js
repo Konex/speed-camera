@@ -452,7 +452,7 @@ var googleMaps = {};
 
 
 
-var ui = {};
+var mapsUi = {};
 (function (){
 	var $scope, $log, $ionicSideMenuDelegate, $ionicPopup;
 
@@ -471,22 +471,26 @@ var ui = {};
 	}
 
 	function wireHandlers() {
-		$scope.toggleLeft = function() {
-	    	$ionicSideMenuDelegate.toggleLeft();
-	  	};
-
-	  	$scope.showAlert = function(_title, _template) {
-		    var alertPopup = $ionicPopup.alert({
-		     	title: _title,
-		     	template: _template
-		   	});
-		   	alertPopup.then(function(res) {
-		     	console.log('');
-		   	});
-		 };
+		$scope.toggleLeft = toggleLeft;
+	  	$scope.showAlert  = showAlert;
 	}
 
-	ui.init = init;
+	function toggleLeft() {
+		$ionicSideMenuDelegate.toggleLeft();
+	}
+
+	function showAlert() {
+		var alertPopup = $ionicPopup.alert({
+	     	title: _title,
+	     	template: _template
+	   	});
+	   	alertPopup.then(function(res) {
+	     	console.log('');
+	   	});
+	}
+
+
+	mapsUi.init = init;
 })();
 
 
@@ -528,7 +532,7 @@ mapsController.controller('MapsCtrl', [
 			 $cordovaToast, 
 			 dataAccessService) {
 
-		ui.init($scope, $log, $ionicSideMenuDelegate, $ionicPopup);	
+		mapsUi.init($scope, $log, $ionicSideMenuDelegate, $ionicPopup);	
 		
 		googleMaps.init($scope, uiGmapGoogleMapApi);
 
