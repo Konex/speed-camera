@@ -21,19 +21,26 @@ var userPreferences = {};
 
 		myLocationOnOff:   {text: 'My Location',    checked: false},
 		needForSpeedOnOff: {text: 'Need For Speed', checked: true},
-		country: '',
-		state: '',
+		country:           {name: '', value: ''},
+		state:             {name: '', value: ''},
 		
-		previousCountry: '',
-		previousState: ''
+		previousCountry:   {name: '', value: ''},
+		previousState:     {name: '', value: ''}
 	};
 
 	var $scope;
 
+
 	function init(_$scope) {
 		$scope = _$scope;
+		
+		setDefaults();
+	}
+
+	function setDefaults() {
 		$scope.userSettings = userSettings;
 	}
+
 
 	userPreferences.init = init;
 	
@@ -84,46 +91,63 @@ var appUi = {};
 (function() {
 	var $scope;
 
+	var availableCountry = {
+		australia:  'australia',
+		newZealand: 'newZealand',
+		france:     'france' 
+	};
+
+	var countryOptions = [
+		{name: 'Australia',   value: 'australia'},
+		{name: 'New Zealand', value: 'newZealand'},
+		{name: 'France',      value: 'france'}
+	];
+
+	var stateOptionsByCountry = {
+		australia: [
+			{name: 'Australian Capital Territory', value: 'act'},
+            {name: 'New South Wales',              value: 'nsw'},
+            {name: 'Northern Territory',           value: 'nt'},
+            {name: 'Queensland',                   value: 'qld'},
+            {name: 'Western Australia',            value: 'wa'},
+            {name: 'Tasmania',                     value: 'tas'},
+            {name: 'Victoria',                     value: 'vic'}
+		],
+
+		newZealand: [
+			{name: '', value: 'newZealand'}
+		],
+
+		france: [
+			{name: 'France', value: 'france'}
+		]
+	};
+
+	var stateOptions = [
+		{name: '', value: ''}
+	];
+
+
 	function init(_$scope) {
 		$scope = _$scope;
-		setDefaults();
-	}
-
-	function setDefaults() {
 		// For some reason ion-view does not cache child scope so have to store map variables here.
 		$scope.previousPosition = {};
 		$scope.currentPosition  = {};
 		$scope.cameraMarkers    = [];
 
-		$scope.countryOptions = [
-			{name: 'Australia',   value: 'Australia'},
-			{name: 'New Zealand', value: 'NewZealand'},
-			{name: 'France',      value: 'France'}
-		];
+		setDefaults();
+		wireHandlers();
+	}
 
-		$scope.stateOptionsByCountry = {
-			Australia: [
-				{name: 'Australian Capital Territory', value: 'Australian Capital Territory'},
-                {name: 'New South Wales',              value: 'New South Wales'},
-                {name: 'Northern Territory',           value: 'Northern Territory'},
-                {name: 'Queensland',                   value: 'Queensland'},
-                {name: 'Western Australia',            value: 'Western Australia'},
-                {name: 'Tasmania',                     value: 'Tasmania'},
-                {name: 'Victoria',                     value: 'Victoria'}
-			],
+	function setDefaults() {
+		$scope.countryOptions        = countryOptions;
+		$scope.stateOptionsByCountry = stateOptionsByCountry;
+		$scope.stateOptions          = stateOptions;
+		$scope.availableCountry      = availableCountry;
+	}
 
-			NewZealand: [
-				{name: 'New Zealand', value: 'New Zealand'}
-			],
+	function wireHandlers() {
 
-			France: [
-				{name: 'France', value: 'France'}
-			]
-		};
-
-		$scope.stateOptions = [
-			{name: '', value: ''}
-		];
 	}
 
 

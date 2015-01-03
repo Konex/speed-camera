@@ -1,6 +1,7 @@
 'use strict';
 
 var settings = angular.module('settings', [
+  'settings.controller'
 ]);
 
 settings.config([
@@ -13,7 +14,8 @@ settings.config([
       url: '/settings',
       views: {
         'settings-tab': {
-          templateUrl: 'templates/features/settings/settings.html'
+          templateUrl: 'templates/features/settings/settings.html',
+          controller:  'SettingsCtrl'
         }
       }
     })	

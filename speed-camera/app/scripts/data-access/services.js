@@ -6,7 +6,7 @@ dataAccessServices.factory('DataAccessService', ['$http', '$q', function($http, 
   	var dataAccessService = {};
 
 	dataAccessService.translateParam = function(country, stateShortName) {
-        if (!(stateShortName === ''))
+        if (!_.isEmpty(stateShortName))
 		    return 'assets/cameras/' + country.toLowerCase().replace(' ', '-') + '/' + stateShortName.toLowerCase() + '.json';
         else 
             return 'assets/cameras/' + country.toLowerCase().replace(' ', '-') + '/' + country.toLowerCase().replace(' ', '-') + '.json';
