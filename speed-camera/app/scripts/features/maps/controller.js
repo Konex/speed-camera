@@ -433,6 +433,10 @@ var ui = {};
 	}
 
 	function setDefaults() {
+		
+	}
+
+	function wireHandlers() {
 		$scope.toggleLeft = function() {
 	    	$ionicSideMenuDelegate.toggleLeft();
 	  	};
@@ -446,10 +450,6 @@ var ui = {};
 		     	console.log('');
 		   	});
 		 };
-	}
-
-	function wireHandlers() {
-		
 	}
 
 	ui.init = init;
