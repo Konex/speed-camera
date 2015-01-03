@@ -8,12 +8,6 @@ var ui = {};
 (function () {
 	var $scope;
 
-	// var country = {
-	// 	australia:  'australia',
-	// 	newZealand: 'new zealand',
-	// 	france:     'france' 
-	// };
-
 	function init(_$scope) {
 		$scope = _$scope;
 
@@ -30,17 +24,7 @@ var ui = {};
 	}
 
 	function countryChange() {
-		// if ($scope.$parent.userSettings.country.toLowerCase() === country.australia) {
-		// 	$scope.$parent.stateOptions = $scope.$parent.stateOptionsByCountry.australia
-		// }
-
-		// if ($scope.$parent.userSettings.country.toLowerCase() === country.newZealand) {
-
-		// }
-
-		// if ($scope.$parent.userSettings.country.toLowerCase() === country.france) {
-
-		// }
+		$scope.$parent.stateOptions = $scope.$parent.stateOptionsByCountry[$scope.$parent.userSettings.country.value];
 	}
 
 	ui.init = init;
