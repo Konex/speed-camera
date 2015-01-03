@@ -89,7 +89,7 @@ var currentUser = {};
 
 var appUi = {};
 (function() {
-	var $scope;
+	var $scope, uiGmapGoogleMapApi;
 
 	var availableCountry = {
 		australia:  'australia',
@@ -128,12 +128,18 @@ var appUi = {};
 	];
 
 
-	function init(_$scope) {
+	function init(_$scope, _uiGmapGoogleMapApi) {
 		$scope = _$scope;
+		uiGmapGoogleMapApi = _uiGmapGoogleMapApi;
+		
 		// For some reason ion-view does not cache child scope so have to store map variables here.
 		$scope.previousPosition = {};
 		$scope.currentPosition  = {};
 		$scope.cameraMarkers    = [];
+
+		uiGmapGoogleMapApi.then(function(maps) {
+			$scope.map = { center: { latitude: -36.849562, longitude: 174.764876 }, zoom: 9 };
+	    });
 
 		setDefaults();
 		wireHandlers();
@@ -164,12 +170,13 @@ applicationController.controller('ApplicationController', [
 	'$scope',
 	'USER_ROLES',
 	'AuthService',
+	'uiGmapGoogleMapApi',
 
-  	function ($scope, USER_ROLES, AuthService) {
+  	function ($scope, USER_ROLES, AuthService, uiGmapGoogleMapApi) {
 		// TODO: setup user auth if needed
 		//currentUser.init($scope, USER_ROLES, AuthService);
 
 		userPreferences.init($scope);
-		appUi.init($scope);
+		appUi.init($scope, uiGmapGoogleMapApi);
 	}
 ]);

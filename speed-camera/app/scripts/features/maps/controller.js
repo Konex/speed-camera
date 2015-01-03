@@ -273,9 +273,12 @@ var currentLocation = {};
 		  	$cordovaGeolocation
 			    .getCurrentPosition(posOptions)
 			    .then(function (position) {
-			      $scope.$parent.currentPosition.latitude    = position.coords.latitude;
-			      $scope.$parent.currentPosition.longitude   = position.coords.longitude;
-			      $scope.$parent.previousPosition = angular.copy($scope.$parent.currentPosition);
+			      	$scope.$parent.currentPosition.latitude    = position.coords.latitude;
+			      	$scope.$parent.currentPosition.longitude   = position.coords.longitude;
+			      	
+			      	googleMaps.moveMapsIfNeeded();
+
+			      	$scope.$parent.previousPosition = angular.copy($scope.$parent.currentPosition);
 			    }, function(err) {
 		      		// error
 		    	}
@@ -302,6 +305,7 @@ var currentLocation = {};
 		      		$scope.$parent.currentPosition.latitude   = position.coords.latitude;
 			      	$scope.$parent.currentPosition.longitude  = position.coords.longitude;
 
+			      	googleMaps.moveMapsIfNeeded();
 			      	cameraMarkers.buildCurrentLocationMarker();
 			      	cameraMarkers.getCameraMarkersIfNeeded();
 			  	} 
@@ -417,6 +421,36 @@ var cameraMarkers = {};
 
 
 
+var googleMaps = {};
+(function (){
+	var $scope, uiGmapGoogleMapApi;
+
+	function init(_$scope, _uiGmapGoogleMapApi) {
+		$scope             = _$scope;
+		uiGmapGoogleMapApi = _uiGmapGoogleMapApi;
+	}
+
+	function moveMapsIfNeeded() {
+		if (!_.isEmpty($scope.currentPosition)                          && 
+			!_.isEqual($scope.currentPosition, $scope.previousPosition) && 
+			!_.isUndefined($scope.map)                                  &&
+			!_.isEmpty($scope.map)) {
+
+			$scope.map.center.latitude  = $scope.currentPosition.latitude;
+			$scope.map.center.longitude = $scope.currentPosition.longitude;
+		}
+	} 
+
+
+	googleMaps.init = init;
+	googleMaps.moveMapsIfNeeded = moveMapsIfNeeded;
+
+})();
+
+
+
+
+
 
 var ui = {};
 (function (){
@@ -495,10 +529,8 @@ mapsController.controller('MapsCtrl', [
 			 dataAccessService) {
 
 		ui.init($scope, $log, $ionicSideMenuDelegate, $ionicPopup);	
-
-		uiGmapGoogleMapApi.then(function(maps) {
-			$scope.map = { center: { latitude: -36.849562, longitude: 174.764876 }, zoom: 9 };
-	    });
+		
+		googleMaps.init($scope, uiGmapGoogleMapApi);
 
 	    cameraMarkers.init($scope, dataAccessService);
 
