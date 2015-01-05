@@ -177,26 +177,31 @@ var geoPointDistance = {};
 
 var cameraWarning = {};
 (function () {
+	var $scope;
+	var $cordovaVibration;
+	var $cordovaDialogs;
+	var $cordovaToast;
 
-	function warnCamera(_$scope, _$cordovaVibration, _$cordovaToast) {
-		var $scope            = _$scope;
-		var $cordovaVibration = _$cordovaVibration;
-		var $cordovaDialogs   = _$cordovaDialogs;
-		var $cordovaToast     = _$cordovaToast;
+	function init(_$scope, _$cordovaVibration, _$cordovaDialogs, _$cordovaToast) {
+		$scope            = _$scope;
+		$cordovaVibration = _$cordovaVibration;
+		$cordovaDialogs   = _$cordovaDialogs;
+		$cordovaToast     = _$cordovaToast;
+	}
 
+	function warnCamera() {
 		if (_.isEmpty($scope.cameraMarkers) || _.isEmpty($scope.previousPosition) || _.isEmpty($scope.currentPosition)) 
 			return;
 		
-		var nearestCamera = calcNearestCamera($scope);
+		var nearestCamera = calcNearestCamera();
 		
 		if (_.isUndefined(nearestCamera) || _.isEmpty(nearestCamera)) 
 			return;
 
-		giveWarning($scope, $cordovaVibration, $cordovaDialogs, $cordovaToast);
+		giveWarning();
 	}
 
-	function calcNearestCamera(_$scope) {
-		var $scope = _$scope;
+	function calcNearestCamera() {
 		var nearestCameraMarker, previousDistance, currentDistance, distanceToNearestCamera = Number.MAX_VALUE;
 
 		_.each($scope.cameraMarkers, function(cameraMarker) {
@@ -216,12 +221,7 @@ var cameraWarning = {};
 		});
 	}
 
-	function giveWarning(_$scope, _$cordovaVibration, _$cordovaDialogs, _$cordovaToast) {
-		var $scope = _$scope;
-		var $cordovaVibration = _$cordovaVibration;
-		var $cordovaDialogs = _$cordovaDialogs;
-		var $cordovaToast = _$cordovaToast;
-
+	function giveWarning() {
 		if ($scope.userSettings.vibrationOnOff.checked)
 			$cordovaVibration.vibrate(100);
 
@@ -237,7 +237,7 @@ var cameraWarning = {};
 		  		});
 	}
 
-
+	cameraWarning.init = init;
 	cameraWarning.warnCamera = warnCamera; 
 })();
 
@@ -308,6 +308,7 @@ var currentLocation = {};
 			      	googleMaps.moveMapsIfNeeded();
 			      	cameraMarkers.buildCurrentLocationMarker();
 			      	cameraMarkers.getCameraMarkersIfNeeded();
+			      	cameraWarning.warnCamera();
 			  	} 
 		  	);
 		});
@@ -537,6 +538,8 @@ mapsController.controller('MapsCtrl', [
 		googleMaps.init($scope, uiGmapGoogleMapApi);
 
 	    cameraMarkers.init($scope, dataAccessService);
+
+	    cameraWarning.init($scope, $cordovaVibration, $cordovaDialogs, $cordovaToast);
 
 	    currentLocation.init($scope, $cordovaGeolocation, $ionicPlatform);
 		currentLocation.getCurrentLocation();

@@ -137,8 +137,10 @@ var appUi = {};
 		$scope.currentPosition  = {};
 		$scope.cameraMarkers    = [];
 
+		// Adelaide -34.927438, 138.613378
+		// Auckland -36.849562, 174.764876
 		uiGmapGoogleMapApi.then(function(maps) {
-			$scope.map = { center: { latitude: -36.849562, longitude: 174.764876 }, zoom: 9 };
+			$scope.map = { center: { latitude: -34.927438, longitude: 138.613378 }, zoom: 9 };
 	    });
 
 		setDefaults();
