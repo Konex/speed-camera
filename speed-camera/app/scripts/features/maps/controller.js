@@ -544,9 +544,6 @@ mapsController.controller('MapsCtrl', [
 	    currentLocation.init($scope, $cordovaGeolocation, $ionicPlatform);
 		currentLocation.getCurrentLocation();
 	    currentLocation.watchCurrentLocation();
-
-	    cameraMarkers.buildCurrentLocationMarker();
-      	cameraMarkers.getCameraMarkersIfNeeded();
 	}
 ]);
 
