@@ -344,7 +344,7 @@ var cameraMarkers = {};
 
 	function getCameraMarkersIfNeeded() {
 		if(geolocationReversion.calcLocation($scope) && refetchMarkersNeeded()) {	
-			var jsonFilePath = dataAccessService.translateParam($scope.userSettings.country.name, $scope.userSettings.state.name);
+			var jsonFilePath = dataAccessService.translateParam($scope.userSettings.country.name, $scope.userSettings.state.value);
 
 			dataAccessService.getCameras(jsonFilePath)
 			.then(function(data) {

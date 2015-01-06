@@ -111,7 +111,8 @@ var appUi = {};
             {name: 'Queensland',                   value: 'qld'},
             {name: 'Western Australia',            value: 'wa'},
             {name: 'Tasmania',                     value: 'tas'},
-            {name: 'Victoria',                     value: 'vic'}
+            {name: 'Victoria',                     value: 'vic'},
+            {name: 'South Australia',              value: 'sa'}
 		],
 
 		newZealand: [
