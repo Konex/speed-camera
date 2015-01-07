@@ -3,6 +3,7 @@
 var mars = angular.module('Mars', [
     'ngCordova',
     'ionic',
+    'LocalStorageModule',
     'ngAnimate', 
     'config',
     'applicationController',
@@ -52,16 +53,20 @@ mars.run([
 }]);
 
 
-mars.config(['$stateProvider', '$urlRouterProvider', 
-    function($stateProvider, $urlRouterProvider) {
+mars.config(['$stateProvider', '$urlRouterProvider', 'localStorageServiceProvider', 
+    function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
 
-    $stateProvider
+        localStorageServiceProvider
+            .setPrefix('mars')
+            .setStorageCookie(45, '/');
+
+        $stateProvider
         .state('tab', {
             url: '/tab',
             abstract: true,
             templateUrl: 'templates/tabs.html'
         });
 
-    $urlRouterProvider.otherwise('/tab/maps');
+        $urlRouterProvider.otherwise('/tab/maps');
 }]);
 
