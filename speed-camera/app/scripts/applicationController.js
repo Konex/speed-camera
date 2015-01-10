@@ -28,17 +28,26 @@ var userPreferences = {};
 		previousState:     {name: '', value: ''}
 	};
 
-	var $scope;
+	var $scope, $log, localStorageService;
 
 
-	function init(_$scope) {
-		$scope = _$scope;
+	function init(_$scope, _$log, _localStorageService) {
+		$scope 			    = _$scope;
+		$log                = _$log;
+		localStorageService = _localStorageService;
 		
 		setDefaults();
+		wireHandlers();
 	}
 
 	function setDefaults() {
 		$scope.userSettings = userSettings;
+	}
+
+	function wireHandlers() {
+		if (localStorageService.isSupported) {
+			localStorageService.set('userSettings', $scope.userSettings);
+		}
 	}
 
 
@@ -130,8 +139,8 @@ var appUi = {};
 
 
 	function init(_$scope, _uiGmapGoogleMapApi) {
-		$scope = _$scope;
-		uiGmapGoogleMapApi = _uiGmapGoogleMapApi;
+		$scope              = _$scope;
+		uiGmapGoogleMapApi  = _uiGmapGoogleMapApi;
 		
 		// For some reason ion-view does not cache child scope so have to store map variables here.
 		$scope.previousPosition = {};
@@ -171,15 +180,17 @@ var appUi = {};
 
 applicationController.controller('ApplicationController', [
 	'$scope',
+	'$log',
 	'USER_ROLES',
 	'AuthService',
 	'uiGmapGoogleMapApi',
+	'localStorageService',
 
-  	function ($scope, USER_ROLES, AuthService, uiGmapGoogleMapApi) {
+  	function ($scope, $log, USER_ROLES, AuthService, uiGmapGoogleMapApi, localStorageService) {
 		// TODO: setup user auth if needed
 		//currentUser.init($scope, USER_ROLES, AuthService);
 
-		userPreferences.init($scope);
+		userPreferences.init($scope, $log, localStorageService);
 		appUi.init($scope, uiGmapGoogleMapApi);
 	}
 ]);
