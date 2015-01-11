@@ -38,6 +38,7 @@ var userPreferences = {};
 		
 		setDefaults();
 		wireHandlers();
+		wireWatchers();
 	}
 
 	function setDefaults() {
@@ -45,13 +46,27 @@ var userPreferences = {};
 	}
 
 	function wireHandlers() {
-		if (localStorageService.isSupported) {
-			localStorageService.set('userSettings', $scope.userSettings);
-		}
+
+	}
+
+	function wireWatchers() {
+		$scope.$watch('userSettings', function(newValue, oldValue) {
+			if (localStorageService.isSupported) {
+				localStorageService.set('userSettings', $scope.userSettings);
+			}
+		}, true);
+	}
+
+	function get() {
+		var settings = localStorageService.get('userSettings');
+
+		if (!_.isUndefined(settings) && !_.isEmpty(settings))
+			$scope.userSettings =  settings;
 	}
 
 
 	userPreferences.init = init;
+	userPreferences.get  = get;
 	
 })();
 
@@ -191,6 +206,7 @@ applicationController.controller('ApplicationController', [
 		//currentUser.init($scope, USER_ROLES, AuthService);
 
 		userPreferences.init($scope, $log, localStorageService);
+		userPreferences.get();
 		appUi.init($scope, uiGmapGoogleMapApi);
 	}
 ]);

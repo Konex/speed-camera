@@ -6,22 +6,23 @@ var settingsController = angular.module('settings.controller', [
 
 var settingsUi = {};
 (function () {
-	var $scope;
+	var $scope, localStorageService;
 
-	function init(_$scope) {
-		$scope = _$scope;
+	function init(_$scope, _localStorageService) {
+		$scope 				= _$scope;
+		localStorageService = _localStorageService;
 
 		setDefaults();
-		wireHandlers();
+		wireWatchers();
 	}
 
 	function setDefaults() {
 
 	}
 
-	function wireHandlers() {
+	function wireWatchers() {
 		$scope.$watch('userSettings.country', function(newValue, oldValue) {
-			$scope.$parent.stateOptions = $scope.$parent.stateOptionsByCountry[$scope.$parent.userSettings.country.value];	
+			$scope.$parent.stateOptions = $scope.$parent.stateOptionsByCountry[$scope.$parent.userSettings.country.value];
 		});
 	}
 
@@ -34,9 +35,10 @@ var settingsUi = {};
 settingsController.controller('SettingsCtrl', [
 	'$scope',
 	'$cordovaToast',
+	'localStorageService',
 
-	function($scope, $cordovaToast) {
+	function($scope, $cordovaToast, localStorageService) {
 
-		settingsUi.init($scope);
+		settingsUi.init($scope, localStorageService);
 	}
 ]);
