@@ -258,10 +258,11 @@ var cameraWarning = {};
 var currentLocation = {};
 (function (){
 
-	var $scope, $cordovaGeolocation, $ionicPlatform, watch;
+	var $scope, $log, $cordovaGeolocation, $ionicPlatform, watch;
 
-	function init(_$scope, _$cordovaGeolocation, _$ionicPlatform) {
+	function init(_$scope, _$log, _$cordovaGeolocation, _$ionicPlatform) {
 		$scope              = _$scope;
+		$log                = _$log;
 		$cordovaGeolocation = _$cordovaGeolocation;
 		$ionicPlatform      = _$ionicPlatform;
 	}
@@ -275,9 +276,8 @@ var currentLocation = {};
 			    .then(function (position) {
 			      	$scope.$parent.currentPosition.latitude    = position.coords.latitude;
 			      	$scope.$parent.currentPosition.longitude   = position.coords.longitude;
-			      	
 			      	googleMaps.moveMapsIfNeeded();
-
+			      	currentLocation.buildCurrentLocationMarker();
 			      	$scope.$parent.previousPosition = angular.copy($scope.$parent.currentPosition);
 			    }, function(err) {
 		      		// error
@@ -306,7 +306,7 @@ var currentLocation = {};
 			      	$scope.$parent.currentPosition.longitude  = position.coords.longitude;
 
 			      	googleMaps.moveMapsIfNeeded();
-			      	cameraMarkers.buildCurrentLocationMarker();
+			      	currentLocation.buildCurrentLocationMarker();
 			      	cameraMarkers.getCameraMarkersIfNeeded();
 			      	cameraWarning.warnCamera();
 			  	} 
@@ -321,10 +321,26 @@ var currentLocation = {};
 		});
 	}
 
+	function buildCurrentLocationMarker() {
+		if (!_.isUndefined($scope.$parent.currentPosition) && !_.isEmpty($scope.$parent.currentPosition)) {
+
+			if (!_.isEqual($scope.$parent.currentPosition, $scope.$parent.previousPosition) || _.isUndefined($scope.currentLocationMarker)) {
+				$scope.currentLocationMarker = {
+					id:     0,
+					icon:   '../../images/blue-dot.png',
+					coords: {latitude: $scope.$parent.currentPosition.latitude, longitude: $scope.$parent.currentPosition.longitude}
+				};
+				$log.debug('current marker: ' + $scope.currentLocationMarker.id);
+			}
+		}
+	}
+
+
 	currentLocation.init = init;
 	currentLocation.getCurrentLocation = getCurrentLocation;
-	currentLocation.watchCurrentLocation = watchCurrentLocation; 
+	currentLocation.watchCurrentLocation = watchCurrentLocation;
 	currentLocation.clearWatch = clearWatch;
+	currentLocation.buildCurrentLocationMarker = buildCurrentLocationMarker;
 })();
 
 
@@ -335,10 +351,11 @@ var currentLocation = {};
 
 var cameraMarkers = {};
 (function () {
-	var $scope, dataAccessService;
+	var $scope, $log, dataAccessService;
 
-	function init(_$scope, _dataAccessService) {
+	function init(_$scope, _$log, _dataAccessService) {
 		$scope               = _$scope;
+		$log                 = _$log;
 		dataAccessService    = _dataAccessService;
 	}
 
@@ -365,7 +382,8 @@ var cameraMarkers = {};
 
 	function setMarkers(markers, data) {	
 		angular.forEach(data.value, function(item) {
-			markers.push(buildMarker(item));	
+			markers.push(buildMarker(item));
+			$log.debug('marker id: ' + item.id);
 		});
 	}
 
@@ -402,20 +420,10 @@ var cameraMarkers = {};
 		return description;
 	}
 
-	function buildCurrentLocationMarker() {
-		if (!_.isUndefined($scope.$parent.currentPosition) && !_.isEmpty($scope.$parent.currentPosition)) {
-			$scope.currentLocationMarker = {
-				id:     0,
-				icon:   'https://chart.googleapis.com/chart?chst=d_map_spin&chld=1|0|FFFF42|11|b|Me',
-				coords: {latitude: $scope.$parent.currentPosition.latitude, longitude: $scope.$parent.currentPosition.longitude}
-			};
-		}
-	}
 
 	cameraMarkers.init = init;
 	cameraMarkers.getCameraMarkersIfNeeded = getCameraMarkersIfNeeded;
-	cameraMarkers.buildCurrentLocationMarker = buildCurrentLocationMarker;
-
+	
 })();
 
 
@@ -537,14 +545,12 @@ mapsController.controller('MapsCtrl', [
 		
 		googleMaps.init($scope, uiGmapGoogleMapApi);
 
-	    cameraMarkers.init($scope, dataAccessService);
+	    cameraMarkers.init($scope, $log, dataAccessService);
 
 	    cameraWarning.init($scope, $cordovaVibration, $cordovaDialogs, $cordovaToast);
 
-	    currentLocation.init($scope, $cordovaGeolocation, $ionicPlatform);
+	    currentLocation.init($scope, $log, $cordovaGeolocation, $ionicPlatform);
 		currentLocation.getCurrentLocation();
 	    currentLocation.watchCurrentLocation();
 	}
 ]);
-
-
