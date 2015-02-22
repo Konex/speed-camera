@@ -21,6 +21,7 @@ module.exports = function (grunt) {
     yeoman: {
       // configurable paths
       app: 'app',
+      assets: 'assets',
       scripts: 'scripts',
       styles: 'styles',
       images: 'images'
@@ -244,58 +245,62 @@ module.exports = function (grunt) {
 
     // Copies remaining files to places other tasks can use
     copy: {
-      dist: {
-        files: [{
-          expand: true,
-          dot: true,
-          cwd: '<%= yeoman.app %>',
-          dest: 'www',
-          src: [
-            '<%= yeoman.images %>/**/*.{png,jpg,jpeg,gif,webp,svg}',
-            '*.html',
-            'templates/**/*.html',
-            'fonts/*'
-          ]
-        }, {
-          expand: true,
-          cwd: '.tmp/<%= yeoman.images %>',
-          dest: 'www/<%= yeoman.images %>',
-          src: ['generated/*']
-        }]
-      },
-      styles: {
-        expand: true,
-        cwd: '<%= yeoman.app %>/<%= yeoman.styles %>',
-        dest: '.tmp/<%= yeoman.styles %>/',
-        src: '{,*/}*.css'
-      },
-      fonts: {
-        expand: true,
-        cwd: 'app/lib/ionic/release/fonts/',
-        dest: '<%= yeoman.app %>/fonts/',
-        src: '*'
-      },
-      vendor: {
-        expand: true,
-        cwd: '<%= yeoman.app %>/vendor',
-        dest: '.tmp/<%= yeoman.styles %>/',
-        src: '{,*/}*.css'
-      },
-      app: {
-        expand: true,
-        cwd: '<%= yeoman.app %>',
-        dest: 'www/',
-        src: [
-          '**/*',
-          '!**/*.(scss,sass,css)',
-        ]
-      },
-      tmp: {
-        expand: true,
-        cwd: '.tmp',
-        dest: 'www/',
-        src: '**/*'
-      }
+        dist: {
+            files: [
+                {
+                  expand: true,
+                  dot: true,
+                  cwd: '<%= yeoman.app %>',
+                  dest: 'www',
+                  src: [
+                    '<%= yeoman.images %>/**/*.{png,jpg,jpeg,gif,webp,svg}',
+                    '*.html',
+                    'templates/**/*.html',
+                    'assets/**/*.json',
+                    'fonts/*'
+                  ]
+                }, 
+                {
+                  expand: true,
+                  cwd: '.tmp/<%= yeoman.images %>',
+                  dest: 'www/<%= yeoman.images %>',
+                  src: ['generated/*']
+                }
+            ]
+        },
+        styles: {
+            expand: true,
+            cwd: '<%= yeoman.app %>/<%= yeoman.styles %>',
+            dest: '.tmp/<%= yeoman.styles %>/',
+            src: '{,*/}*.css'
+        },
+        fonts: {
+            expand: true,
+            cwd: 'app/lib/ionic/release/fonts/',
+            dest: '<%= yeoman.app %>/fonts/',
+            src: '*'
+        },
+        vendor: {
+            expand: true,
+            cwd: '<%= yeoman.app %>/vendor',
+            dest: '.tmp/<%= yeoman.styles %>/',
+            src: '{,*/}*.css'
+        },
+        app: {
+            expand: true,
+            cwd: '<%= yeoman.app %>',
+            dest: 'www/',
+            src: [
+              '**/*',
+              '!**/*.(scss,sass,css)',
+            ]
+        },
+        tmp: {
+            expand: true,
+            cwd: '.tmp',
+            dest: 'www/',
+            src: '**/*'
+        }
     },
 
     concurrent: {
