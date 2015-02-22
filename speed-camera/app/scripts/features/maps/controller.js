@@ -4,9 +4,6 @@ var mapsController = angular.module('maps.controller', [
 
 
 
-
-
-
 var geolocationReversion = {};
 (function () {
 
@@ -146,10 +143,6 @@ var geolocationReversion = {};
 
 
 
-
-
-
-
 var geoPointDistance = {};
 (function () {
 	var rad = function(x) {
@@ -175,6 +168,7 @@ var geoPointDistance = {};
 })(); 
 
 
+
 var cameraWarning = {};
 (function () {
 	var $scope;
@@ -190,12 +184,12 @@ var cameraWarning = {};
 	}
 
 	function warnCamera() {
-		if (_.isEmpty($scope.cameraMarkers) || _.isEmpty($scope.previousPosition) || _.isEmpty($scope.currentPosition)) 
+		if (!$scope.cameraMarkers || !$scope.previousPosition || !$scope.currentPosition) 
 			return;
 		
 		var nearestCamera = calcNearestCamera();
 		
-		if (_.isUndefined(nearestCamera) || _.isEmpty(nearestCamera)) 
+		if (!nearestCamera) 
 			return;
 
 		giveWarning();
@@ -240,18 +234,6 @@ var cameraWarning = {};
 	cameraWarning.init = init;
 	cameraWarning.warnCamera = warnCamera; 
 })();
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -316,21 +298,21 @@ var currentLocation = {};
 
 	function clearWatch() {
 		$ionicPlatform.ready(function() {
-			if (!_.isUndefined(watch))
+			if (watch)
 				watch.clearWatch();
 		});
 	}
 
 	function buildCurrentLocationMarker() {
-		if (!_.isUndefined($scope.$parent.currentPosition) && !_.isEmpty($scope.$parent.currentPosition)) {
+		if ($scope.$parent.currentPosition) {
 
-			if (!_.isEqual($scope.$parent.currentPosition, $scope.$parent.previousPosition) || _.isUndefined($scope.currentLocationMarker)) {
+			if (!_.isEqual($scope.$parent.currentPosition, $scope.$parent.previousPosition) || !$scope.currentLocationMarker) {
 				$scope.currentLocationMarker = {
 					id:     0,
 					icon:   '../../images/blue-dot.png',
 					coords: {latitude: $scope.$parent.currentPosition.latitude, longitude: $scope.$parent.currentPosition.longitude}
 				};
-				$log.debug('current marker: ' + $scope.currentLocationMarker.id);
+				$log.debug('current marker id: ' + $scope.currentLocationMarker.id);
 			}
 		}
 	}

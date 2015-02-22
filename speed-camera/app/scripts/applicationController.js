@@ -59,9 +59,7 @@ var userPreferences = {};
 
 	function get() {
 		var settings = localStorageService.get('userSettings');
-
-		if (!_.isUndefined(settings) && !_.isEmpty(settings))
-			$scope.userSettings =  settings;
+		$scope.userSettings =  settings;
 	}
 
 
