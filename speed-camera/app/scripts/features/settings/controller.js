@@ -12,18 +12,15 @@ var settingsUi = {};
 		$scope 				= _$scope;
 		localStorageService = _localStorageService;
 
-		setDefaults();
-		wireWatchers();
+		wireHandlers();
 	}
 
-	function setDefaults() {
-
+	function wireHandlers() {
+		$scope.countryChange = countryChange;
 	}
 
-	function wireWatchers() {
-		$scope.$watch('userSettings.country', function(newValue, oldValue) {
-			$scope.$parent.stateOptions = $scope.$parent.stateOptionsByCountry[$scope.$parent.userSettings.country.value];
-		});
+	function countryChange() {
+		$scope.$parent.stateOptions = $scope.$parent.stateOptionsByCountry[$scope.$parent.userSettings.country.value];
 	}
 
 	settingsUi.init = init;
@@ -38,7 +35,6 @@ settingsController.controller('SettingsCtrl', [
 	'localStorageService',
 
 	function($scope, $cordovaToast, localStorageService) {
-
 		settingsUi.init($scope, localStorageService);
 	}
 ]);
