@@ -2,8 +2,6 @@
 
 var applicationController = angular.module('applicationController', []);
 
-
-
 var userPreferences = {};
 (function() {
 
@@ -20,7 +18,6 @@ var userPreferences = {};
 		gpsIntervalMeter:  10,
 
 		myLocationOnOff:   {text: 'My Location',    checked: false},
-		needForSpeedOnOff: {text: 'Need For Speed', checked: true},
 		country:           {name: '', value: ''},
 		state:             {name: '', value: ''},
 		
@@ -37,16 +34,11 @@ var userPreferences = {};
 		localStorageService = _localStorageService;
 		
 		setDefaults();
-		wireHandlers();
 		wireWatchers();
 	}
 
 	function setDefaults() {
 		$scope.userSettings = userSettings;
-	}
-
-	function wireHandlers() {
-
 	}
 
 	function wireWatchers() {

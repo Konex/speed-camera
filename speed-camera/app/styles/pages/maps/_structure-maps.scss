@@ -3,11 +3,11 @@ ion-nav-view[name="maps-tab"] {
 
 	.checkbox {
 		float: right;
-	}	
-}
+	}
 
-.angular-google-map-container { 
-	height: 33rem; 
+    .scroll {
+        margin-top: 2.7rem;        
+    }	
 }
 
 .fade-bar {
@@ -17,4 +17,19 @@ ion-nav-view[name="maps-tab"] {
     z-index:          9999;
     opacity:          0;
     background-color: #000;
+}
+
+.angular-google-map {
+    position: relative;
+    padding-bottom: 66.67%; /* aspectratio 3:2 */
+    height: 0;
+    overflow: hidden;
+}
+
+.angular-google-map-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
