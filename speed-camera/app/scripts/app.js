@@ -52,8 +52,10 @@ mars.run([
 }]);
 
 
-mars.config(['$stateProvider', '$urlRouterProvider', 'localStorageServiceProvider', 
-    function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
+mars.config(['$stateProvider', '$urlRouterProvider', 'localStorageServiceProvider', '$ionicConfigProvider',
+    function($stateProvider, $urlRouterProvider, localStorageServiceProvider, $ionicConfigProvider) {
+
+        $ionicConfigProvider.tabs.position('bottom');
 
         localStorageServiceProvider
             .setPrefix('mars')
