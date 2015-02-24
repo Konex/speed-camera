@@ -159,7 +159,6 @@ var appUi = {};
 	    });
 
 		setDefaults();
-		wireHandlers();
 	}
 
 	function setDefaults() {
@@ -168,11 +167,6 @@ var appUi = {};
 		$scope.stateOptions          = stateOptions;
 		$scope.availableCountry      = availableCountry;
 	}
-
-	function wireHandlers() {
-
-	}
-
 
 	appUi.init = init;
 

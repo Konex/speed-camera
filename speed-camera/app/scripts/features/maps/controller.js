@@ -184,7 +184,7 @@ var cameraWarning = {};
 	}
 
 	function warnCamera() {
-		if (!$scope.cameraMarkers || !$scope.previousPosition || !$scope.currentPosition) 
+		if (!$scope.cameraMarkers || _.isEmpty($scope.cameraMarkers) || !$scope.previousPosition || !$scope.currentPosition) 
 			return;
 		
 		var nearestCamera = calcNearestCamera();
@@ -308,7 +308,7 @@ var currentLocation = {};
 
 			if (!_.isEqual($scope.$parent.currentPosition, $scope.$parent.previousPosition) || !$scope.currentLocationMarker) {
 				$scope.currentLocationMarker = {
-					id:     0,
+					id:     'me',
 					icon:   '../../images/blue-dot.png',
 					coords: {latitude: $scope.$parent.currentPosition.latitude, longitude: $scope.$parent.currentPosition.longitude}
 				};
@@ -356,10 +356,9 @@ var cameraMarkers = {};
 
 	function refetchMarkersNeeded() {
 		return !(_.isEqual($scope.userSettings.previousCountry, $scope.userSettings.country) && 
-				 _.isEqual($scope.userSettings.previousState, $scope.userSettings.state)     && 
-				 !_.isEmpty($scope.userSettings.country.name)                                &&
-				 !_.isUndefined($scope.$parent.cameraMarkers)                                && 
-				 !_.isEmpty($scope.$parent.cameraMarkers))
+				 _.isEqual($scope.userSettings.previousState, $scope.userSettings.state) && 
+				 $scope.userSettings.country.name &&
+				 !$scope.$parent.cameraMarkers)
 	}
 
 	function setMarkers(markers, data) {	
@@ -388,15 +387,15 @@ var cameraMarkers = {};
 	function buildMarkerDescription(markerItem) {
 		var description = '';
 		
-		if (markerItem && !_.isUndefined(markerItem)) {
-			if (!_.isUndefined(markerItem.speed_limit))
+		if (markerItem) {
+			if (markerItem.speed_limit)
 				description += 'Speed Limit: ' + markerItem.speed_limit + '\r\n';
 
-			if (!_.isUndefined(markerItem.type))
+			if (markerItem.type)
 				description += markerItem.type + ' camera';
 		}
 
-		if (_.isEmpty(description))
+		if (!description)
 			description = 'Sorry we can\'t find anything about this camera.';
 
 		return description;
@@ -422,10 +421,7 @@ var googleMaps = {};
 	}
 
 	function moveMapsIfNeeded() {
-		if (!_.isEmpty($scope.currentPosition)                          && 
-			!_.isEqual($scope.currentPosition, $scope.previousPosition) && 
-			!_.isUndefined($scope.map)                                  &&
-			!_.isEmpty($scope.map)) {
+		if ($scope.currentPosition && $scope.map && !_.isEqual($scope.currentPosition, $scope.previousPosition)) {
 
 			$scope.map.center.latitude  = $scope.currentPosition.latitude;
 			$scope.map.center.longitude = $scope.currentPosition.longitude;
