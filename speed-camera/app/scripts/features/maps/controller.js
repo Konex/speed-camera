@@ -3,7 +3,6 @@ var mapsController = angular.module('maps.controller', [
 ]);
 
 
-
 var geolocationReversion = {};
 (function () {
 
@@ -22,11 +21,8 @@ var geolocationReversion = {};
 		fr:  {}
 	};
 
-	function calcLocation(_$scope) {
-		var $scope   = _$scope;
-		var position = $scope.$parent.currentPosition;
-
-		if (_.isUndefined(position) && _.isEmpty(position)) return false;
+	function calc(position) {
+		//var $scope = _$scope;
 		
 		if(position.longitude <= borderPosition.aus.nsw.eastLng && 
 		   position.longitude >= borderPosition.aus.nsw.westlng &&
@@ -37,11 +33,12 @@ var geolocationReversion = {};
 				position.longitude <= borderPosition.aus.act.westOuterlng &&
 				position.latitude >= borderPosition.aus.act.northOuterLat &&
 				position.latitude <= borderPosition.aus.act.southOuterLat) {
-				$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
-				$scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
-				$scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
-				$scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'nsw'});
-				return true;
+				// $scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
+				// $scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
+				// $scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
+				// $scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'nsw'});
+				// return true;
+				return {country: 'australia', state: 'nsw'};
 			}
 		}
 
@@ -49,98 +46,105 @@ var geolocationReversion = {};
 		   position.longitude >= borderPosition.aus.vic.westlng &&
 		   position.latitude <= borderPosition.aus.vic.northLat &&
 		   position.latitude >= borderPosition.aus.vic.southLat) {
-		   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
-			$scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
-			$scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
-			$scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'vic'});
-			return true;
+		 //   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
+			// $scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
+			// $scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
+			// $scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'vic'});
+			// return true;
+			return {country: 'australia', state: 'vic'};
 		}
 
 		if(position.longitude <= borderPosition.aus.wa.eastLng && 
 		   position.longitude >= borderPosition.aus.wa.westlng &&
 		   position.latitude <= borderPosition.aus.wa.northLat &&
 		   position.latitude >= borderPosition.aus.wa.southLat) {
-		   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
-			$scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
-			$scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
-			$scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'wa'});
-			return true;
+		 //   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
+			// $scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
+			// $scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
+			// $scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'wa'});
+			// return true;
+			return {country: 'australia', state: 'wa'};
 		}
 
 		if(position.longitude <= borderPosition.aus.qld.eastLng && 
 		   position.longitude >= borderPosition.aus.qld.westlng &&
 		   position.latitude <= borderPosition.aus.qld.northLat &&
 		   position.latitude >= borderPosition.aus.qld.southLat) {
-		   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
-			$scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
-			$scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
-			$scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'qld'});
-			return true;
+		 //   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
+			// $scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
+			// $scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
+			// $scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'qld'});
+			// return true;
+			return {country: 'australia', state: 'qld'};
 		}
 
 		if(position.longitude <= borderPosition.aus.sa.eastLng && 
 		   position.longitude >= borderPosition.aus.sa.westlng &&
 		   position.latitude <= borderPosition.aus.sa.northLat &&
 		   position.latitude >= borderPosition.aus.sa.southLat) {
-		   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
-			$scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
-			$scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
-			$scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'sa'});
-			return true;
+		 //   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
+			// $scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
+			// $scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
+			// $scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'sa'});
+			// return true;
+			return {country: 'australia', state: 'sa'};
 		}
 
 		if(position.longitude <= borderPosition.aus.nt.eastLng && 
 		   position.longitude >= borderPosition.aus.nt.westlng &&
 		   position.latitude <= borderPosition.aus.nt.northLat &&
 		   position.latitude >= borderPosition.aus.nt.southLat) {
-		   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
-			$scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
-			$scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
-			$scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'nt'});
-			return true;
+		 //   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
+			// $scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
+			// $scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
+			// $scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'nt'});
+			// return true;
+			return {country: 'australia', state: 'nt'};
 		}
 
 		if(position.longitude <= borderPosition.aus.act.eastInnerLng && 
 		   position.longitude >= borderPosition.aus.act.westInnerlng &&
 		   position.latitude <= borderPosition.aus.act.northInnerLat &&
 		   position.latitude >= borderPosition.aus.act.southInnerLat) {
-		   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
-			$scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
-			$scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
-			$scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'act'});
-			return true;
+		 //   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
+			// $scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
+			// $scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
+			// $scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'act'});
+			// return true;
+			return {country: 'australia', state: 'act'};
 		}
 
 		if(position.longitude <= borderPosition.aus.tas.eastInnerLng && 
 		   position.longitude >= borderPosition.aus.tas.westInnerlng &&
 		   position.latitude <= borderPosition.aus.tas.northInnerLat &&
 		   position.latitude >= borderPosition.aus.tas.southInnerLat) {
-		   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
-			$scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
-			$scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
-			$scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'tas'});
-			return true;
+		 //   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
+			// $scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
+			// $scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.australia});
+			// $scope.userSettings.state           = _.findWhere($scope.stateOptionsByCountry.australia, {value: 'tas'});
+			// return true;
+			return {country: 'australia', state: 'tas'};
 		}
 
 		if(position.longitude <= borderPosition.nz.eastLng && 
 		   position.longitude >= borderPosition.nz.westlng &&
 		   position.latitude <= borderPosition.nz.northLat &&
 		   position.latitude >= borderPosition.nz.southLat) {
-		   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
-			$scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
-			$scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.newZealand});
-			$scope.userSettings.state           = $scope.stateOptionsByCountry.newZealand;
+		 //   	$scope.userSettings.previousCountry = angular.copy($scope.userSettings.country);
+			// $scope.userSettings.previousState   = angular.copy($scope.userSettings.state);
+			// $scope.userSettings.country         = _.findWhere($scope.countryOptions, {value: $scope.availableCountry.newZealand});
+			// $scope.userSettings.state           = $scope.stateOptionsByCountry.newZealand;
 
-			return true;
+			// return true;
+			return {country: 'new zealand', state: ''};
 		}
 
-		return false;
+		return {country: '', state: ''};
 	}
 
-	geolocationReversion.calcLocation = calcLocation;
+	geolocationReversion.calc = calc;
 	
 })(); 
-
 
 
 var geoPointDistance = {};
@@ -166,7 +170,6 @@ var geoPointDistance = {};
 
 	geoPointDistance.getDistance = getDistance;
 })(); 
-
 
 
 var cameraWarning = {};
@@ -236,225 +239,89 @@ var cameraWarning = {};
 })();
 
 
-
 var currentLocation = {};
 (function (){
+	var $scope, $q, $cordovaGeolocation, watch, watchOptions;
 
-	var $scope, $log, $cordovaGeolocation, $ionicPlatform, watch;
-
-	function init(_$scope, _$log, _$cordovaGeolocation, _$ionicPlatform) {
-		$scope              = _$scope;
-		$log                = _$log;
+	function init(_$scope, _$q, _$cordovaGeolocation) {
+		$scope = _$scope;
+		$q = _$q;
+		watchOptions = {
+    		frequency : $scope.$parent.userSettings.gpsIntervalSecond * 1000,
+    		timeout : 3000,
+    		enableHighAccuracy: false // may cause errors if true
+  		};
 		$cordovaGeolocation = _$cordovaGeolocation;
-		$ionicPlatform      = _$ionicPlatform;
+
+		watch = _$cordovaGeolocation.watchPosition(watchOptions);
 	}
 
 	function getCurrentLocation() {
-		$ionicPlatform.ready(function() {
-			var posOptions = {timeout: 10000, enableHighAccuracy: false};
+		var deferred = $q.defer();
+		var posOptions = {timeout: 10000, enableHighAccuracy: true};
 
-		  	$cordovaGeolocation
-			    .getCurrentPosition(posOptions)
-			    .then(function (position) {
-			      	$scope.$parent.currentPosition.latitude    = position.coords.latitude;
-			      	$scope.$parent.currentPosition.longitude   = position.coords.longitude;
-			      	googleMaps.moveMapsIfNeeded();
-			      	currentLocation.buildCurrentLocationMarker();
-			      	$scope.$parent.previousPosition = angular.copy($scope.$parent.currentPosition);
-			    }, function(err) {
-		      		// error
-		    	}
-	    	);
-		});
+	  	$cordovaGeolocation
+		    .getCurrentPosition(posOptions)
+		    .then(function (position) {
+		      	deferred.resolve(position);
+		    }, function(err) {
+	      		
+	    	}
+    	);
+	    return deferred.promise;
 	}
 
 	function watchCurrentLocation() {
-		$ionicPlatform.ready(function() {
-			var watchOptions = {
-	    		frequency :         $scope.$parent.userSettings.gpsIntervalSecond * 1000,
-	    		timeout :           3000,
-	    		enableHighAccuracy: false // may cause errors if true
-	  		};
-
-		  	watch = $cordovaGeolocation.watchPosition(watchOptions);
-		  	watch.then(
-		    	null,
-			    function(err) {
-			      // error
-			    },
-			    function(position) {
-			    	$scope.$parent.previousPosition           = angular.copy($scope.$parent.currentPosition);
-		      		$scope.$parent.currentPosition.latitude   = position.coords.latitude;
-			      	$scope.$parent.currentPosition.longitude  = position.coords.longitude;
-
-			      	googleMaps.moveMapsIfNeeded();
-			      	currentLocation.buildCurrentLocationMarker();
-			      	cameraMarkers.getCameraMarkersIfNeeded();
-			      	cameraWarning.warnCamera();
-			  	} 
-		  	);
-		});
+		var deferred = $q.defer();
+		
+	  	watch.then(
+	    	null,
+	    	function(err) {
+		      
+		    },
+	    	function(position) {
+		    	deferred.resolve(position); 
+		  	}
+	  	);
+	  	return deferred.promise;
 	}
 
 	function clearWatch() {
-		$ionicPlatform.ready(function() {
-			if (watch)
-				watch.clearWatch();
-		});
+		if (watch)
+			watch.clearWatch();
 	}
-
-	function buildCurrentLocationMarker() {
-		if ($scope.$parent.currentPosition) {
-
-			if (!_.isEqual($scope.$parent.currentPosition, $scope.$parent.previousPosition) || !$scope.currentLocationMarker) {
-				$scope.currentLocationMarker = {
-					id:     'me',
-					icon:   '../../images/blue-dot.png',
-					coords: {latitude: $scope.$parent.currentPosition.latitude, longitude: $scope.$parent.currentPosition.longitude}
-				};
-				$log.debug('current marker id: ' + $scope.currentLocationMarker.id);
-			}
-		}
-	}
-
 
 	currentLocation.init = init;
 	currentLocation.getCurrentLocation = getCurrentLocation;
 	currentLocation.watchCurrentLocation = watchCurrentLocation;
 	currentLocation.clearWatch = clearWatch;
-	currentLocation.buildCurrentLocationMarker = buildCurrentLocationMarker;
 })();
 
 
-
-
-
-
-
-var cameraMarkers = {};
-(function () {
-	var $scope, $log, dataAccessService;
-
-	function init(_$scope, _$log, _dataAccessService) {
-		$scope               = _$scope;
-		$log                 = _$log;
-		dataAccessService    = _dataAccessService;
-	}
-
-	function getCameraMarkersIfNeeded() {
-		if(geolocationReversion.calcLocation($scope) && refetchMarkersNeeded()) {	
-			var jsonFilePath = dataAccessService.translateParam($scope.userSettings.country.name, $scope.userSettings.state.value);
-
-			dataAccessService.getCameras(jsonFilePath)
-			.then(function(data) {
-				setMarkers($scope.$parent.cameraMarkers, data);
-			}, function(error) {
-				// error
-			});
-		}	
-	}
-
-	function refetchMarkersNeeded() {
-		return !(_.isEqual($scope.userSettings.previousCountry, $scope.userSettings.country) && 
-				 _.isEqual($scope.userSettings.previousState, $scope.userSettings.state) && 
-				 $scope.userSettings.country.name &&
-				 !$scope.$parent.cameraMarkers)
-	}
-
-	function setMarkers(markers, data) {	
-		angular.forEach(data.value, function(item) {
-			markers.push(buildMarker(item));
-			$log.debug('marker id: ' + item.id);
-		});
-	}
-
-	function buildMarker(markerItem) {
-		var marker = {
-			id: markerItem.id, 
-			latitude: markerItem.latitude, 
-			longitude: markerItem.longitude,
-			show: false,
-			description: buildMarkerDescription(markerItem)
-		};
-
-		marker.onClicked = function() {
-			marker.show = !marker.show;
-		};
-
-		return marker;		
-	} 
-
-	function buildMarkerDescription(markerItem) {
-		var description = '';
-		
-		if (markerItem) {
-			if (markerItem.speed_limit)
-				description += 'Speed Limit: ' + markerItem.speed_limit + '\r\n';
-
-			if (markerItem.type)
-				description += markerItem.type + ' camera';
-		}
-
-		if (!description)
-			description = 'Sorry we can\'t find anything about this camera.';
-
-		return description;
-	}
-
-
-	cameraMarkers.init = init;
-	cameraMarkers.getCameraMarkersIfNeeded = getCameraMarkersIfNeeded;
-	
-})();
-
-
-
-
-
-var googleMaps = {};
+var ui = {};
 (function (){
-	var $scope, uiGmapGoogleMapApi;
+	var $scope, $log, $ionicSideMenuDelegate, $ionicPopup, uiGmapGoogleMapApi;
 
-	function init(_$scope, _uiGmapGoogleMapApi) {
-		$scope             = _$scope;
-		uiGmapGoogleMapApi = _uiGmapGoogleMapApi;
-	}
-
-	function moveMapsIfNeeded() {
-		if ($scope.currentPosition && $scope.map && !_.isEqual($scope.currentPosition, $scope.previousPosition)) {
-
-			$scope.map.center.latitude  = $scope.currentPosition.latitude;
-			$scope.map.center.longitude = $scope.currentPosition.longitude;
-		}
-	} 
-
-
-	googleMaps.init = init;
-	googleMaps.moveMapsIfNeeded = moveMapsIfNeeded;
-
-})();
-
-
-
-
-
-
-var mapsUi = {};
-(function (){
-	var $scope, $log, $ionicSideMenuDelegate, $ionicPopup;
-
-	function init(_$scope, _$log, _$ionicSideMenuDelegate, _$ionicPopup) {
-		$scope                 = _$scope;
-		$log                   = _$log;
+	function init(_$scope, _$log, _$ionicSideMenuDelegate, _$ionicPopup, _uiGmapGoogleMapApi) {
+		$scope = _$scope;
+		$log = _$log;
 		$ionicSideMenuDelegate = _$ionicSideMenuDelegate;
-		$ionicPopup            = _$ionicPopup;
+		$ionicPopup = _$ionicPopup;
+		uiGmapGoogleMapApi = _uiGmapGoogleMapApi;
 		
 		setDefaults();
 		wireHandlers();
 	}
 
 	function setDefaults() {
-		
+		$scope.previousPosition.latitude = $scope.currentPosition.latitude = -36.849562;
+		$scope.previousPosition.longitude = $scope.currentPosition.longitude = 174.764876;
+		$scope.mapZoom = 8;
+		$scope.map = { center: { 
+			latitude: $scope.currentPosition.latitude, 
+			longitude: $scope.currentPosition.longitude 
+			}, 
+			zoom: 8 };
 	}
 
 	function wireHandlers() {
@@ -472,28 +339,17 @@ var mapsUi = {};
 	     	template: _template
 	   	});
 	   	alertPopup.then(function(res) {
-	     	console.log('');
+	     	console.log('popped up');
 	   	});
 	}
 
-
-	mapsUi.init = init;
+	ui.init = init;
 })();
-
-
-
-
-
-
-
-
-
-
-
 
 
 mapsController.controller('MapsCtrl', [
 	'$scope',
+	'$q',
 	'$log',
 	'$timeout',
 	'uiGmapGoogleMapApi',
@@ -505,8 +361,10 @@ mapsController.controller('MapsCtrl', [
 	'$cordovaDialogs',
 	'$cordovaToast',
 	'DataAccessService',
+	'uiGmapIsReady',
 
-	function($scope, 
+	function($scope,
+			 $q,	 
 			 $log, 
 			 $timeout, 
 			 uiGmapGoogleMapApi, 
@@ -517,18 +375,71 @@ mapsController.controller('MapsCtrl', [
 			 $cordovaVibration,
 			 $cordovaDialogs,
 			 $cordovaToast, 
-			 dataAccessService) {
+			 dataAccessService,
+			 uiGmapIsReady) {
 
-		mapsUi.init($scope, $log, $ionicSideMenuDelegate, $ionicPopup);	
+		$scope.previousPosition = {};
+		$scope.currentPosition  = {};
+		$scope.cameraMarkers    = [];
+		$scope.mapZoom = {};
 		
-		googleMaps.init($scope, uiGmapGoogleMapApi);
+		function setCurrentLocation(_position) {
+			$scope.currentPosition.latitude = _position.coords.latitude;
+		    $scope.currentPosition.longitude = _position.coords.longitude;
+		    $scope.previousPosition = angular.copy($scope.currentPosition);
+		    $scope.currentLocationMarker = buildCurrentLocationMarker(_position);
+		}
+		function buildMarker(_id, _description, lat, lng, _icon) {
+			var marker = {
+				id: _id,
+				show: false,
+				description: _description,
+				coords: {latitude: lat, longitude: lng}
+			};
+			_icon ? marker.icon = _icon : '';
+			marker.onClick = function() {
+				marker.show = !marker.show;
+			};
+			return marker;
+		}
+		function buildCurrentLocationMarker(_position) {
+			var marker = buildMarker('Me', 'I am here!', _position.coords.latitude, _position.coords.longitude, '../../images/blue-dot.png');
+			return marker;
+		}
+		function buildCameraMarkerDescription(_camera) {
+			var description;
+			description = _camera.speed_limit ? 'Speed Limit: ' + _camera.speed_limit : 'No Speed Limit available';
+			description += " "; 
+			description += _camera.type ? 'Camera Type: ' + _camera.type : 'No Camera Type available';
+			return description;
+		}
 
-	    cameraMarkers.init($scope, $log, dataAccessService);
+		function setCameraMarkers(markers, _cameras) {
+			angular.forEach(_cameras, function(camera) {
+				markers.push(buildMarker(camera.id, buildCameraMarkerDescription(camera), camera.latitude, camera.longitude));
+				$log.debug('camera id: ' + camera.id);
+			});
+		}
 
-	    cameraWarning.init($scope, $cordovaVibration, $cordovaDialogs, $cordovaToast);
+		uiGmapGoogleMapApi.then(function(maps) {
 
-	    currentLocation.init($scope, $log, $cordovaGeolocation, $ionicPlatform);
-		currentLocation.getCurrentLocation();
-	    currentLocation.watchCurrentLocation();
+			ui.init($scope, $log, $ionicSideMenuDelegate, $ionicPopup, uiGmapGoogleMapApi);
+		    currentLocation.init($scope, $q, $cordovaGeolocation);
+			cameraWarning.init($scope, $cordovaVibration, $cordovaDialogs, $cordovaToast);
+
+			currentLocation
+				.getCurrentLocation()
+				.then(function (position) {
+					setCurrentLocation(position);
+					return dataAccessService.getCameras('new zealand', '');
+				})
+				.then(function (cameras) {
+		        	setCameraMarkers($scope.cameraMarkers, cameras.value);
+				});
+
+		    currentLocation.watchCurrentLocation().then(function (position) {
+		    	setCurrentLocation(position);
+		    });
+	    });
 	}
 ]);
