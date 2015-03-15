@@ -46,7 +46,7 @@ var cameraWarning = {};
 		// if (!$scope.cameraMarkers || !$scope.previousPosition || !$scope.currentPosition) 
 		// 	return;
 		
-		var nearestCamera = calcNearestCamera($scope.cameraMarkers, $scope.previousPosition, $scope.currentPosition, $scope.userSettings.warningDistance);
+		var nearestCamera = calcNearestCameraInWarningDistance($scope.cameraMarkers, $scope.previousPosition, $scope.currentPosition, $scope.userSettings.warningDistance);
 		
 		if (nearestCamera) 
 			giveWarning($scope.userSettings.vibrationOnOff.checked, $scope.userSettings.soundOnOff.checked, $scope.userSettings.toastOnOff.checked);
@@ -252,7 +252,7 @@ mapsController.controller('MapsCtrl', [
 			return marker;
 		}
 		function buildCurrentLocationMarker(_position) {
-			var marker = buildMarker('Me', 'I am here!', _position.coords.latitude, _position.coords.longitude, '../../images/blue-dot.png');
+			var marker = buildMarker('Me', 'I am here!', _position.coords.latitude, _position.coords.longitude, '/android_asset/www/images/blue-dot.png');
 			return marker;
 		}
 		function buildCameraMarkerDescription(_camera) {
@@ -276,14 +276,15 @@ mapsController.controller('MapsCtrl', [
 		    currentLocation.init($scope, $q, $cordovaGeolocation);
 			cameraWarning.init($scope, $cordovaVibration, $cordovaDialogs, $cordovaToast);
 
+			dataAccessService.getCameras('new zealand')
+				.then(function (cameras) {
+					setCameraMarkers($scope.cameraMarkers, cameras.value);
+				});
+
 			currentLocation
 				.getCurrentLocation()
 				.then(function (position) {
-					setCurrentLocation(position);
-					return dataAccessService.getCameras('new zealand', '');
-				})
-				.then(function (cameras) {
-		        	setCameraMarkers($scope.cameraMarkers, cameras.value);
+					setCurrentLocation(position);	
 				});
 
 		    currentLocation.watchCurrentLocation().then(function (position) {

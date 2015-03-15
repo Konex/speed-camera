@@ -9,13 +9,11 @@ var userPreferences = {};
 		weatherOnOff:      {text: 'Weather',        checked: false},  
 		trafficOnOff:      {text: 'Traffic',        checked: false},
 		mobileCameraOnOff: {text: 'Mobile Camera',  checked: false}, 		
-		
 		soundOnOff:        {text: 'Sound',          checked: false},
 		vibrationOnOff:    {text: 'Vibration',      checked: false},
 		toastOnOff:        {text: 'Toast',          checked: false},
 		warningDistance:   20, 
 		gpsIntervalSecond: 5,
-
 		myLocationOnOff:   {text: 'My Location',    checked: false}
 	};
 
@@ -44,35 +42,12 @@ var userPreferences = {};
 
 	function get() {
 		var settings = localStorageService.get('userSettings');
-		$scope.userSettings =  settings;
+		$scope.userSettings =  settings || $scope.userSettings;
 	}
 
 	userPreferences.init = init;
 	userPreferences.get  = get;
 	
-})();
-
-
-var appUi = {};
-(function() {
-	var $scope, uiGmapGoogleMapApi;
-
-	function init(_$scope, _uiGmapGoogleMapApi) {
-		$scope              = _$scope;
-		uiGmapGoogleMapApi  = _uiGmapGoogleMapApi;
-		
-		setDefaults();
-	}
-
-	function setDefaults() {
-		$scope.countryOptions        = countryOptions;
-		$scope.stateOptionsByCountry = stateOptionsByCountry;
-		$scope.stateOptions          = stateOptions;
-		$scope.availableCountry      = availableCountry;
-	}
-
-	appUi.init = init;
-
 })();
 
 
@@ -86,7 +61,5 @@ applicationController.controller('ApplicationController', [
   	function ($scope, $log, AuthService, uiGmapGoogleMapApi, localStorageService) {
 		userPreferences.init($scope, $log, localStorageService);
 		userPreferences.get();
-		
-		//appUi.init($scope, uiGmapGoogleMapApi);
 	}
 ]);
