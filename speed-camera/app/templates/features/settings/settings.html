@@ -2,10 +2,12 @@
     <ion-content padding="true">
         <div class="list">
             <div class="item item-divider">Maps</div>
+            
             <ion-toggle ng-model="userSettings.weatherOnOff.checked" ng-check="userSettings.weatherOnOff.checked" toggle-class="toggle-energized">Weather</ion-toggle>    
+            
             <ion-toggle ng-model="userSettings.trafficOnOff.checked" ng-check="userSettings.trafficOnOff.checked" toggle-class="toggle-energized">Traffic</ion-toggle>
+
             <ion-toggle ng-model="userSettings.toastOnOff" ng-check="userSettings.toastOnOff.checked" toggle-class="toggle-energized">Toast Message</ion-toggle>
-            <ion-toggle ng-model="userSettings.mobileCameraOnOff" ng-check="userSettings.mobileCameraOnOff.checked" toggle-class="toggle-energized">Mobile Camera</ion-toggle>
 
             <div class="item item-divider">Phone</div>
             
@@ -34,38 +36,9 @@
                     </div>        
                 </li>
             </ul>
-
-            <ul>
-                <li class="item">
-                    <p>GPS Interval in Meter: {{userSettings.gpsIntervalMeter}}</p>
-                    <div class="range range-energized">
-                        <i class="icon ion-ios-paw-outline"></i>
-                        <input ng-model="userSettings.gpsIntervalMeter" type="range" name="gpsInMeter" min="0" max="100" value="33">
-                        <i class="icon ion-ios-paw"></i>
-                    </div>        
-                </li>
-            </ul>            
-
+                       
             <div class="item item-divider">Me</div>
             <ion-toggle ng-model="userSettings.myLocationOnOff.checked" toggle-class="toggle-energized">Pin My Location</ion-toggle>
-            
-            <label class="item item-input item-select">
-                <div class="input-label">
-                    Country
-                </div>
-                <select ng-model="userSettings.country"
-                        ng-change="countryChange()" 
-                        ng-options="country.name for country in countryOptions">
-                </select>
-            </label>
-            <label class="item item-input item-select">
-                <div class="input-label">
-                    State
-                </div>
-                <select ng-model="userSettings.state" 
-                        ng-options="state.name for state in stateOptions">
-                </select>
-            </label>
         </div>
         
     </ion-content>

@@ -5,44 +5,6 @@ var applicationController = angular.module('applicationController', []);
 var userPreferences = {};
 (function() {
 
-	// TODO: move it to user setting controller
-	// var availableCountry = {
-	// 	australia:  'australia',
-	// 	newZealand: 'newZealand',
-	// 	france:     'france' 
-	// };
-
-	// var countryOptions = [
-	// 	{name: 'Australia',   value: 'australia'},
-	// 	{name: 'New Zealand', value: 'newZealand'},
-	// 	{name: 'France',      value: 'france'}
-	// ];
-
-	// var stateOptionsByCountry = {
-	// 	australia: [
-	// 		{name: 'Australian Capital Territory', value: 'act'},
- //            {name: 'New South Wales',              value: 'nsw'},
- //            {name: 'Northern Territory',           value: 'nt'},
- //            {name: 'Queensland',                   value: 'qld'},
- //            {name: 'Western Australia',            value: 'wa'},
- //            {name: 'Tasmania',                     value: 'tas'},
- //            {name: 'Victoria',                     value: 'vic'},
- //            {name: 'South Australia',              value: 'sa'}
-	// 	],
-
-	// 	newZealand: [
-	// 		{name: '', value: 'newZealand'}
-	// 	],
-
-	// 	france: [
-	// 		{name: 'France', value: 'france'}
-	// 	]
-	// };
-
-	// var stateOptions = [
-	// 	{name: '', value: ''}
-	// ];
-
 	var userSettings = {
 		weatherOnOff:      {text: 'Weather',        checked: false},  
 		trafficOnOff:      {text: 'Traffic',        checked: false},
@@ -52,15 +14,9 @@ var userPreferences = {};
 		vibrationOnOff:    {text: 'Vibration',      checked: false},
 		toastOnOff:        {text: 'Toast',          checked: false},
 		warningDistance:   20, 
-		gpsIntervalSecond: 7,
-		gpsIntervalMeter:  10,
+		gpsIntervalSecond: 5,
 
-		myLocationOnOff:   {text: 'My Location',    checked: false},
-		country:           {name: '', value: ''},
-		state:             {name: '', value: ''},
-		
-		previousCountry:   {name: '', value: ''},
-		previousState:     {name: '', value: ''}
+		myLocationOnOff:   {text: 'My Location',    checked: false}
 	};
 
 	var $scope, $log, localStorageService;
