@@ -22,7 +22,7 @@ ion-nav-view[name="maps-tab"] {
 .angular-google-map {
     position: relative;
     padding-bottom: 66.67%; /* aspectratio 3:2 */
-    height: 0;
+    //height: 100%;
     overflow: hidden;
 }
 

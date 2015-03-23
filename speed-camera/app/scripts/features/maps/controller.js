@@ -160,6 +160,7 @@ var ui = {};
 		
 		setDefaults();
 		wireHandlers();
+		addEventListeners();
 	}
 
 	function setDefaults() {
@@ -171,17 +172,15 @@ var ui = {};
 			longitude: $scope.currentPosition.longitude 
 			}, 
 			zoom: 8 };
+		setMapHeight();
 	}
-
 	function wireHandlers() {
 		$scope.toggleLeft = toggleLeft;
 	  	$scope.showAlert  = showAlert;
 	}
-
 	function toggleLeft() {
 		$ionicSideMenuDelegate.toggleLeft();
 	}
-
 	function showAlert() {
 		var alertPopup = $ionicPopup.alert({
 	     	title: _title,
@@ -190,6 +189,24 @@ var ui = {};
 	   	alertPopup.then(function(res) {
 	     	console.log('popped up');
 	   	});
+	}
+	function setMapHeight () {
+		var mapEle = angular.element(document.getElementsByClassName("angular-google-map"));
+		mapEle.css("height", window.clientHeight);
+	}
+	function addEventListeners () {
+		addOrientationChangeListener();
+		addWindowResizeListener();		
+	}
+	function addOrientationChangeListener () {
+		window.addEventListener("orientationchange", function (event) {
+			setMapHeight();
+		});
+	}
+	function addWindowResizeListener () {
+		window.addEventListener("resize", function (event) {
+			setMapHeight();
+		});
 	}
 
 	ui.init = init;
